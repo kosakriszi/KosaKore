@@ -1,0 +1,15 @@
+apply plugin: 'java'
+
+group = 'com.kosakorner.kosakore'
+version = '1.0'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile files('./lib/Vault-1.4.1.jar')
+    compile files('./lib/WorldEdit.jar')
+    compile files('./lib/WorldGuard.jar')
+    compile files('./lib/bukkit-1.7.10-R0.1-SNAPSHOT.jar')
+}
