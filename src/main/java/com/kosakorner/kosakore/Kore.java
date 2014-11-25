@@ -3,18 +3,25 @@ package com.kosakorner.kosakore;
 import com.kosakorner.kosakore.compat.VaultInterface;
 import com.kosakorner.kosakore.util.LocationUtils;
 import com.kosakorner.kosakore.util.PlayerUtils;
+import org.bukkit.Bukkit;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class Kore extends JavaPlugin {
 
-    private static Kore          instance;
-    private        PlayerUtils   playerUtils;
-    private        LocationUtils locationUtils;
+    private PlayerUtils   playerUtils;
+    private LocationUtils locationUtils;
+
+    public static Kore instance() {
+        Plugin plugin = Bukkit.getPluginManager().getPlugin("SkyBlock");
+        if (plugin instanceof Kore) {
+            return (Kore) plugin;
+        }
+        return null;
+    }
 
     public void onEnable() {
-        instance = this;
-
         VaultInterface.setupEconomy();
         VaultInterface.setupPermissions();
 
@@ -33,16 +40,12 @@ public class Kore extends JavaPlugin {
         playerUtils.writeUUIDMap();
     }
 
-    public static Kore instance() {
-        return instance;
-    }
-
     public static PlayerUtils playerUtils() {
-        return instance.playerUtils;
+        return instance().playerUtils;
     }
 
     public static LocationUtils locationUtils() {
-        return instance.locationUtils;
+        return instance().locationUtils;
     }
 
 }
