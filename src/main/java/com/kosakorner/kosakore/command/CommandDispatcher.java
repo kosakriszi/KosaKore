@@ -38,7 +38,8 @@ public class CommandDispatcher implements CommandExecutor, TabCompleter {
         ICommand com = null;
         if (mCommands.containsKey(subCommand)) {
             com = mCommands.get(subCommand);
-        } else {
+        }
+        else {
             // Check aliases
             AliasCheck:
             for (Map.Entry<String, ICommand> ent : mCommands.entrySet()) {
@@ -80,15 +81,18 @@ public class CommandDispatcher implements CommandExecutor, TabCompleter {
             String[] lines = com.getUsageString(subCommand, sender);
             String usageString = "";
 
-            if (lines.length > 1)
+            if (lines.length > 1) {
                 usageString = ChatColor.RED + "Usage:\n    ";
-            else
+            }
+            else {
                 usageString = ChatColor.RED + "Usage: ";
+            }
 
             boolean first = true;
             for (String line : lines) {
-                if (!first)
+                if (!first) {
                     usageString += "\n    ";
+                }
                 first = false;
 
                 usageString += ChatColor.GRAY + "/" + label + " " + line;
@@ -108,37 +112,47 @@ public class CommandDispatcher implements CommandExecutor, TabCompleter {
         // Build the list
         for (ICommand command : mCommands.values()) {
             // Check that the sender is correct
-            if (!command.canBeConsole() && (sender instanceof ConsoleCommandSender || sender instanceof RemoteConsoleCommandSender))
+            if (!command.canBeConsole() && (sender instanceof ConsoleCommandSender || sender instanceof RemoteConsoleCommandSender)) {
                 continue;
+            }
 
             // Check that they have permission
-            if (command.getPermission() != null && !VaultInterface.checkPerk(sender, command.getPermission()))
+            if (command.getPermission() != null && !VaultInterface.checkPerk(sender, command.getPermission())) {
                 continue;
+            }
 
-            if (odd)
+            if (odd) {
                 usage += ChatColor.WHITE;
-            else
+            }
+            else {
                 usage += ChatColor.GRAY;
+            }
             odd = !odd;
 
-            if (first)
+            if (first) {
                 usage += command.getName();
-            else
+            }
+            else {
                 usage += ", " + command.getName();
+            }
 
             first = false;
         }
 
-        if (subcommand != null)
+        if (subcommand != null) {
             sender.sendMessage(ChatColor.RED + "Unknown command: " + ChatColor.RESET + "/" + label + " " + ChatColor.GOLD + subcommand);
-        else
+        }
+        else {
             sender.sendMessage(ChatColor.RED + "No command specified: " + ChatColor.RESET + "/" + label + ChatColor.GOLD + " <command>");
+        }
 
         if (!first) {
             sender.sendMessage("Valid commands are:");
             sender.sendMessage(usage);
-        } else
+        }
+        else {
             sender.sendMessage("There are no commands available to you");
+        }
 
 
     }
@@ -151,17 +165,20 @@ public class CommandDispatcher implements CommandExecutor, TabCompleter {
             for (ICommand registeredCommand : mCommands.values()) {
                 if (registeredCommand.getName().toLowerCase().startsWith(args[0].toLowerCase())) {
                     // Check that the sender is correct
-                    if (!registeredCommand.canBeConsole() && (sender instanceof ConsoleCommandSender || sender instanceof RemoteConsoleCommandSender))
+                    if (!registeredCommand.canBeConsole() && (sender instanceof ConsoleCommandSender || sender instanceof RemoteConsoleCommandSender)) {
                         continue;
+                    }
 
                     // Check that they have permission
-                    if (command.getPermission() != null && !VaultInterface.checkPerk(sender, command.getPermission()))
+                    if (command.getPermission() != null && !VaultInterface.checkPerk(sender, command.getPermission())) {
                         continue;
+                    }
 
                     results.add(registeredCommand.getName());
                 }
             }
-        } else {
+        }
+        else {
             // Find the command to use
             String subCommand = args[0].toLowerCase();
             String[] subArgs = (args.length > 1 ? Arrays.copyOfRange(args, 1, args.length) : new String[0]);
@@ -169,7 +186,8 @@ public class CommandDispatcher implements CommandExecutor, TabCompleter {
             ICommand com = null;
             if (mCommands.containsKey(subCommand)) {
                 com = mCommands.get(subCommand);
-            } else {
+            }
+            else {
                 // Check aliases
                 AliasCheck:
                 for (Map.Entry<String, ICommand> ent : mCommands.entrySet()) {
@@ -201,8 +219,9 @@ public class CommandDispatcher implements CommandExecutor, TabCompleter {
             }
 
             results = com.onTabComplete(sender, subCommand, subArgs);
-            if (results == null)
+            if (results == null) {
                 return new ArrayList<String>();
+            }
         }
         return results;
     }
@@ -246,28 +265,33 @@ public class CommandDispatcher implements CommandExecutor, TabCompleter {
 
         @Override
         public boolean onCommand(CommandSender sender, String label, String[] args) {
-            if (args.length != 0)
+            if (args.length != 0) {
                 return false;
+            }
 
             sender.sendMessage(ChatColor.GOLD + mRootCommandDescription);
             sender.sendMessage(ChatColor.GOLD + "Commands: \n");
 
             for (ICommand command : mCommands.values()) {
                 // Dont show commands that are irrelevant
-                if (!command.canBeCommandBlock() && sender instanceof BlockCommandSender)
+                if (!command.canBeCommandBlock() && sender instanceof BlockCommandSender) {
                     continue;
-                if (!command.canBeConsole() && (sender instanceof ConsoleCommandSender || sender instanceof RemoteConsoleCommandSender))
+                }
+                if (!command.canBeConsole() && (sender instanceof ConsoleCommandSender || sender instanceof RemoteConsoleCommandSender)) {
                     continue;
+                }
 
-                if (command.getPermission() != null && !VaultInterface.checkPerk(sender, command.getPermission()))
+                if (command.getPermission() != null && !VaultInterface.checkPerk(sender, command.getPermission())) {
                     continue;
+                }
 
 
                 String usageString = "";
                 boolean first = true;
                 for (String line : command.getUsageString(command.getName(), sender)) {
-                    if (!first)
+                    if (!first) {
                         usageString += "\n";
+                    }
 
                     first = false;
 
@@ -276,8 +300,9 @@ public class CommandDispatcher implements CommandExecutor, TabCompleter {
 
                 sender.sendMessage(usageString);
                 String[] descriptionLines = command.getDescription().split("\n");
-                for (String line : descriptionLines)
+                for (String line : descriptionLines) {
                     sender.sendMessage("  " + ChatColor.WHITE + line);
+                }
             }
             return true;
         }

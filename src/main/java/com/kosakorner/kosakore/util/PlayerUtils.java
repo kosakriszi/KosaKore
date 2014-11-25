@@ -20,9 +20,10 @@ import java.util.UUID;
 public class PlayerUtils implements Listener {
 
     public Map<String, UUID> idMap;
-    File mapFile = new File(Kore.instance().getDataFolder(), "idMap");
+    File mapFile;
 
     public PlayerUtils() {
+        mapFile = new File(Kore.instance().getDataFolder(), "idMap");
         idMap = readUUIDMap();
     }
 
@@ -77,14 +78,14 @@ public class PlayerUtils implements Listener {
     }
 
     public void writeUUIDMap() {
-        String contents = "";
+        StringBuilder contents = new StringBuilder();
         for (Map.Entry entry : idMap.entrySet()) {
-            contents += entry.getKey() + "|" + entry.getValue().toString() + "\n";
+            contents.append(entry.getKey()).append("|").append(entry.getValue().toString()).append("\n");
         }
 
         try {
             FileWriter writer = new FileWriter(mapFile);
-            writer.write(contents);
+            writer.write(contents.toString());
             writer.flush();
             writer.close();
         }

@@ -1,8 +1,8 @@
 package com.kosakorner.kosakore.compat;
 
-import com.kosakorner.kosakore.Kore;
 import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.permission.Permission;
+import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.RegisteredServiceProvider;
@@ -33,17 +33,18 @@ public class VaultInterface {
     }
 
     public static boolean setupPermissions() {
-        RegisteredServiceProvider rsp = Kore.instance().getServer().getServicesManager().getRegistration(Permission.class);
-        if (rsp.getProvider() != null)
+        RegisteredServiceProvider rsp = Bukkit.getServicesManager().getRegistration(Permission.class);
+        if (rsp.getProvider() != null) {
             perms = (Permission) rsp.getProvider();
+        }
         return perms != null;
     }
 
     public static boolean setupEconomy() {
-        if (Kore.instance().getServer().getPluginManager().getPlugin("Vault") == null) {
+        if (Bukkit.getPluginManager().getPlugin("Vault") == null) {
             return false;
         }
-        RegisteredServiceProvider rsp = Kore.instance().getServer().getServicesManager().getRegistration(Economy.class);
+        RegisteredServiceProvider rsp = Bukkit.getServicesManager().getRegistration(Economy.class);
         if (rsp == null) {
             return false;
         }
