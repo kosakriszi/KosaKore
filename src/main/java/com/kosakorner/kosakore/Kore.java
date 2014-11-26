@@ -8,14 +8,10 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.io.File;
-
 public class Kore extends JavaPlugin {
 
     private PlayerUtils   playerUtils;
     private LocationUtils locationUtils;
-
-    public File dataDir;
 
     public static Kore instance() {
         Plugin plugin = Bukkit.getPluginManager().getPlugin("KosaKore");
@@ -32,8 +28,6 @@ public class Kore extends JavaPlugin {
         if (!getDataFolder().exists()) {
             getDataFolder().mkdir();
         }
-
-        dataDir = getDataFolder();
 
         playerUtils = new PlayerUtils();
         locationUtils = new LocationUtils();

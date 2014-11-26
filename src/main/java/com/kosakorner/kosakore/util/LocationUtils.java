@@ -90,7 +90,10 @@ public class LocationUtils {
                     block.getType().equals(Material.DEAD_BUSH) ||
                     block.getType().equals(Material.SIGN_POST) ||
                     block.getType().equals(Material.SIGN) ||
-                    block.getType().equals(Material.DOUBLE_PLANT)
+                    block.getType().equals(Material.DOUBLE_PLANT) ||
+                    block.getType().equals(Material.STONE_PLATE) ||
+                    block.getType().equals(Material.WOOD_PLATE) ||
+                    block.getType().equals(Material.STEP)
             ) && (above.getType().equals(Material.AIR))) {
             return true;
         }
