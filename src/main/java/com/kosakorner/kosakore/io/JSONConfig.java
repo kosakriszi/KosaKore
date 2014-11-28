@@ -87,12 +87,19 @@ public class JSONConfig {
     }
 
     public int getInt(String keyPath) {
-        Long toReturn = (Long) parsed.get(keyPath);
+        Object object = parsed.get(keyPath);
+        Integer toReturn = null;
+        if (object instanceof Long) {
+            toReturn = ((Long) object).intValue();
+        }
+        else if (object instanceof Integer) {
+            toReturn = (Integer) object;
+        }
         if (toReturn == null) {
             return -1;
         }
         else {
-            return toReturn.intValue();
+            return toReturn;
         }
     }
 

@@ -17,6 +17,9 @@ public class LocationUtils {
     }
 
     public Location fromString(String string) {
+        if (string.equals("null")) {
+            return null;
+        }
         String[] parts = string.split(Pattern.quote(","));
         Location parsed = new Location(Bukkit.getWorld(parts[0]), Double.valueOf(parts[1]), Double.valueOf(parts[2]), Double.valueOf(parts[3]));
         parsed.setYaw(Float.valueOf(parts[4]));
