@@ -1,0 +1,15 @@
+dependencies {
+    compile project(':Kore-API')
+    compile 'org.bukkit:bukkit:1.8-R0.1-SNAPSHOT'
+    compile 'net.milkbowl.vault:VaultAPI:1.5'
+    compile 'com.sk89q.worldedit:worldedit-bukkit:6.0.1-SNAPSHOT'
+    compile files('D:/Development/Java/Minecraft/KosaKore/lib/WorldGuard.jar')
+}
+
+shadowJar {
+    dependencies {
+        include(dependency(':Kore-API'))
+    }
+}
+
+build.dependsOn(shadowJar)

@@ -1,0 +1,102 @@
+package com.kosakorner.kosakore.api.type;
+
+import java.util.HashMap;
+import java.util.Map;
+
+public enum PotionType implements IDamageHelper {
+
+    WATER(0),
+    AWKWARD(16),
+    THICK(32),
+    MUNDANE(64),
+    REGENERATION(8193),
+    SWIFTNESS(8194),
+    FIRE_RESISTANCE(8195),
+    POISON(8196),
+    HEALING(8197),
+    NIGHT_VISION(8198),
+    WEAKNESS(8200),
+    STRENGTH(8201),
+    SLOWNESS(8202),
+    HARMING(8205),
+    WATER_BREATHING(8205),
+    INVISIBILITY(8206),
+    REGENERATION_II(8225),
+    SWIFTNESS_II(8226),
+    POISON_II(8228),
+    HEALING_II(8229),
+    STRENGTH_II(8233),
+    LEAPING_II(8235),
+    HARMING_II(8236),
+    REGENERATION_LONG(8257),
+    SWIFTNESS_LONG(8258),
+    FIRE_RESISTANCE_LONG(8259),
+    POISON_LONG(8260),
+    NIGHT_VISION_LONG(8262),
+    WEAKNESS_LONG(8264),
+    STRENGTH_LONG(8265),
+    SLOWNESS_LONG(8266),
+    LEAPING(8267),
+    WATER_BREATHING_LONG(8269),
+    INVISIBILITY_LONG(8270),
+    REGENERATION_II_LONG(8289),
+    SWIFTNESS_II_LONG(8290),
+    POISON_II_LONG(8292),
+    STRENGTH_II_LONG(8297),
+    SPLASH_REGENERATION(8193 + 8192),
+    SPLASH_SWIFTNESS(8194 + 8192),
+    SPLASH_FIRE_RESISTANCE(8195 + 8192),
+    SPLASH_POISON(8196 + 8192),
+    SPLASH_HEALING(8197 + 8192),
+    SPLASH_NIGHT_VISION(8198 + 8192),
+    SPLASH_WEAKNESS(8200 + 8192),
+    SPLASH_STRENGTH(8201 + 8192),
+    SPLASH_SLOWNESS(8202 + 8192),
+    SPLASH_HARMING(8205 + 8192),
+    SPLASH_WATER_BREATHING(8205 + 8192),
+    SPLASH_INVISIBILITY(8206 + 8192),
+    SPLASH_REGENERATION_II(8225 + 8192),
+    SPLASH_SWIFTNESS_II(8226 + 8192),
+    SPLASH_POISON_II(8228 + 8192),
+    SPLASH_HEALING_II(8229 + 8192),
+    SPLASH_STRENGTH_II(8233 + 8192),
+    SPLASH_LEAPING_II(8235 + 8192),
+    SPLASH_HARMING_II(8236 + 8192),
+    SPLASH_REGENERATION_LONG(8257 + 8192),
+    SPLASH_SWIFTNESS_LONG(8258 + 8192),
+    SPLASH_FIRE_RESISTANCE_LONG(8259 + 8192),
+    SPLASH_POISON_LONG(8260 + 8192),
+    SPLASH_NIGHT_VISION_LONG(8262 + 8192),
+    SPLASH_WEAKNESS_LONG(8264 + 8192),
+    SPLASH_STRENGTH_LONG(8265 + 8192),
+    SPLASH_SLOWNESS_LONG(8266 + 8192),
+    SPLASH_LEAPING(8267 + 8192),
+    SPLASH_WATER_BREATHING_LONG(8269 + 8192),
+    SPLASH_INVISIBILITY_LONG(8270 + 8192),
+    SPLASH_REGENERATION_II_LONG(8289 + 8192),
+    SPLASH_SWIFTNESS_II_LONG(8290 + 8192),
+    SPLASH_POISON_II_LONG(8292 + 8192),
+    SPLASH_STRENGTH_II_LONG(8297 + 8192);
+
+    private int damage;
+    private static Map<String, PotionType> map = new HashMap<String, PotionType>();
+
+    static {
+        for (PotionType entry : PotionType.values()) {
+            map.put(entry.name(), entry);
+        }
+    }
+
+    private PotionType(int damage) {
+        this.damage = damage;
+    }
+
+    public short getDamage() {
+        return (short) damage;
+    }
+
+    public static PotionType get(String name) {
+        return map.get(name);
+    }
+
+}
