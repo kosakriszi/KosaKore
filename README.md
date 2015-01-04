@@ -1,4 +1,4 @@
 KosaKore
 ========
 
-Core library for my Bukkit projects
+Core library for my plugin projects
