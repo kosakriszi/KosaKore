@@ -1,6 +1,0 @@
-name: KosaKore
-main: com.kosakorner.kosakore.bukkit.BukkitKore
-version: 1.0.0
-description: A multi-platform core library!
-author: kosakriszi
-depend: [WorldEdit, WorldGuard, Vault]
