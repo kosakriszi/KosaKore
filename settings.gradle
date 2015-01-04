@@ -1,2 +1,3 @@
 rootProject.name = 'KosaKore'
 
+include 'Kore-API', 'Kore-Bukkit'

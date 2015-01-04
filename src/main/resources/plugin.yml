@@ -1,6 +1,0 @@
-name: KosaKore
-main: com.kosakorner.kosakore.Kore
-version: 1.0.0
-description: A fun core library!
-author: kosakriszi
-depend: [WorldEdit, WorldGuard, Vault]
