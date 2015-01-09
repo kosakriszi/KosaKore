@@ -6,10 +6,10 @@ dependencies {
     compile files('D:/Development/Java/Minecraft/KosaKore/lib/WorldGuard.jar')
 }
 
-shadowJar {
-    dependencies {
-        include(dependency(':Kore-API'))
+jar {
+    exclude('META-INF/*.SF', 'META-INF/*.DSA', 'META-INF/*.RSA', 'META-INF/*.MF')
+
+    from(zipTree('D:/Development/Java/Minecraft/KosaKore/Kore-API/build/libs/Kore-API-1.0.jar')) {
+        include '**/*.class'
     }
 }
-
-build.dependsOn(shadowJar)

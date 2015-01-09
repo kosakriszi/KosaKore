@@ -4,23 +4,19 @@ buildscript {
         maven {
             url = 'https://oss.sonatype.org/content/repositories/snapshots/'
         }
-        jcenter();
-    }
-
-    dependencies {
-        classpath 'com.github.jengelman.gradle.plugins:shadow:1.1.1'
     }
 }
 
 subprojects {
     apply plugin: 'java'
-    apply plugin: 'com.github.johnrengelman.shadow'
+    apply plugin: 'maven'
 
     group = 'com.kosakorner.kosakore'
     version = '1.0'
 
     repositories {
         mavenCentral()
+        mavenLocal()
         maven {
             url = 'https://hub.spigotmc.org/nexus/content/groups/public'
         }
