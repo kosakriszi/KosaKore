@@ -75,7 +75,4 @@ public class Kore extends JavaPlugin implements IKore {
         return worldFactory;
     }
 
-    public IWorld getWorld(String name) {
-        return null;
-    }
 }

@@ -15,7 +15,7 @@ public interface IItemStack {
 
     public int getStackSize();
 
-    public int getDurability();
+    public short getDurability();
 
     public List<IEnchantment> getEnchantments();
 

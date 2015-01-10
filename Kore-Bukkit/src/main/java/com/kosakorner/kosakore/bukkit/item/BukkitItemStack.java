@@ -56,7 +56,7 @@ public class BukkitItemStack implements IItemStack {
         return backingItem.getAmount();
     }
 
-    public int getDurability() {
+    public short getDurability() {
         return backingItem.getDurability();
     }
 

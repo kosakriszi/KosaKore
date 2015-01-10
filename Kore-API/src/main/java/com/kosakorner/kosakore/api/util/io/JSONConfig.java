@@ -47,12 +47,12 @@ public class JSONConfig {
     }
 
     public JSONSection getSubSection(String keyPath) {
-        JSONSection toReturn = (JSONSection) parsed.get(keyPath);
+        JSONObject toReturn = (JSONObject) parsed.get(keyPath);
         if (toReturn == null) {
             return parsed;
         }
         else {
-            return toReturn;
+            return new JSONSection(toReturn);
         }
     }
 

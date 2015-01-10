@@ -10,6 +10,4 @@ public interface IKore {
 
     public IWorldFactory worldFactory();
 
-    public IWorld getWorld(String name);
-
 }

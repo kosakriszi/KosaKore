@@ -28,11 +28,11 @@ public class LocationUtils {
         return parsed;
     }
 
-    public com.kosakorner.kosakore.api.world.Location toKoreLocation(Location location) {
+    public static com.kosakorner.kosakore.api.world.Location toKoreLocation(Location location) {
         return new com.kosakorner.kosakore.api.world.Location(Kore.instance().worldFactory().getWorld(location.getWorld().getName()), location.getX(), location.getY(), location.getZ(), location.getYaw(), location.getPitch());
     }
 
-    public Location fromKoreLocation(com.kosakorner.kosakore.api.world.Location location) {
+    public static Location fromKoreLocation(com.kosakorner.kosakore.api.world.Location location) {
         return new Location(Bukkit.getWorld(location.getWorld().getName()), location.getX(), location.getY(), location.getZ(), location.getYaw(), location.getPitch());
     }
 
