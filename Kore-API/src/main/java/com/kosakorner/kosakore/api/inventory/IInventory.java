@@ -5,6 +5,8 @@ import com.kosakorner.kosakore.api.type.Type;
 
 public interface IInventory {
 
+    public void add(IItemStack stack);
+
     public boolean containsAtLeast(IItemStack stack, int amount);
 
     public void remove(Type type);

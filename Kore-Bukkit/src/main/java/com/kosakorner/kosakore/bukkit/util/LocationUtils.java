@@ -1,42 +1,15 @@
 package com.kosakorner.kosakore.bukkit.util;
 
-import com.kosakorner.kosakore.bukkit.Kore;
-import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Entity;
-import org.bukkit.entity.EntityType;
-
-import java.util.regex.Pattern;
 
 public class LocationUtils {
 
-    public String toString(Location location) {
-        return location.getWorld().getName() + "," + location.getX() + "," + location.getY() + "," + location.getZ() + "," + location.getYaw();
-    }
-
-    public Location fromString(String string) {
-        if (string.equals("null")) {
-            return null;
-        }
-        String[] parts = string.split(Pattern.quote(","));
-        Location parsed = new Location(Bukkit.getWorld(parts[0]), Double.valueOf(parts[1]), Double.valueOf(parts[2]), Double.valueOf(parts[3]));
-        parsed.setYaw(Float.valueOf(parts[4]));
-        return parsed;
-    }
-
-    public static com.kosakorner.kosakore.api.world.Location toKoreLocation(Location location) {
-        return new com.kosakorner.kosakore.api.world.Location(Kore.instance().worldFactory().getWorld(location.getWorld().getName()), location.getX(), location.getY(), location.getZ(), location.getYaw(), location.getPitch());
-    }
-
-    public static Location fromKoreLocation(com.kosakorner.kosakore.api.world.Location location) {
-        return new Location(Bukkit.getWorld(location.getWorld().getName()), location.getX(), location.getY(), location.getZ(), location.getYaw(), location.getPitch());
-    }
-
-    public void removeMobs(Location location, int radius) {
+    public static void removeMobs(Location location, int radius) {
         if (location == null) {
             return;
         }
@@ -65,7 +38,7 @@ public class LocationUtils {
         }
     }
 
-    public boolean isLocationSafe(Location location) {
+    public static boolean isLocationSafe(Location location) {
         if (location == null) {
             return false;
         }

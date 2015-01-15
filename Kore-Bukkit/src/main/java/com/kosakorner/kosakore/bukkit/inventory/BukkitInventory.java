@@ -15,6 +15,10 @@ public class BukkitInventory implements IInventory {
         backingInventory = inventory;
     }
 
+    public void add(IItemStack stack) {
+        backingInventory.addItem(ConversionUtils.fromKoreItemStack(stack));
+    }
+
     public boolean containsAtLeast(IItemStack stack, int amount) {
         return false;
     }

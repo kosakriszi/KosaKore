@@ -1,5 +1,6 @@
 package com.kosakorner.kosakore.bukkit.compat;
 
+import com.kosakorner.kosakore.api.entity.IPlayer;
 import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.permission.Permission;
 import org.bukkit.Bukkit;
@@ -29,11 +30,19 @@ public class Vault {
         return perms;
     }
 
+    public static void addPerm(IPlayer player, String node) {
+        getPerms().playerAdd(Bukkit.getPlayer(player.getUniqueID()), node);
+    }
+
     public static Economy getEcon() {
         if (econ == null) {
             hook();
         }
         return econ;
+    }
+
+    public static void deposit(IPlayer player, double amount) {
+        getEcon().depositPlayer(Bukkit.getOfflinePlayer(player.getUniqueID()), amount);
     }
 
 }

@@ -409,7 +409,7 @@ public enum Type {
         this.maxDurability = maxDurability;
     }
 
-    protected static Type getType(String name) {
+    public static Type getType(String name) {
         return typeNames.get(name);
     }
 

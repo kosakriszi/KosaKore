@@ -3,7 +3,6 @@ package com.kosakorner.kosakore.bukkit.block;
 import com.kosakorner.kosakore.api.block.IBlock;
 import com.kosakorner.kosakore.api.inventory.IInventory;
 import com.kosakorner.kosakore.api.type.Type;
-import com.kosakorner.kosakore.api.type.TypeParser;
 import com.kosakorner.kosakore.bukkit.inventory.BukkitInventory;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -18,7 +17,7 @@ public class BukkitBlock implements IBlock {
     }
 
     public Type getType() {
-        return TypeParser.parse(backingBlock.getType().name());
+        return Type.getType(backingBlock.getType().name());
     }
 
     public void setType(Type type) {

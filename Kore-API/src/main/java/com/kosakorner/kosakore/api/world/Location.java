@@ -1,6 +1,9 @@
 package com.kosakorner.kosakore.api.world;
 
+import com.kosakorner.kosakore.api.KoreAPI;
 import com.kosakorner.kosakore.api.block.IBlock;
+
+import java.util.regex.Pattern;
 
 public class Location {
 
@@ -236,6 +239,21 @@ public class Location {
 
     private static double square(double toSquare) {
         return toSquare * toSquare;
+    }
+
+    public static String toString(Location location) {
+        return location.getWorld().getName() + "," + location.getX() + "," + location.getY() + "," + location.getZ() + "," + location.getPitch()  + "," + location.getYaw();
+    }
+
+    public static Location fromString(String string) {
+        if (string.equals("null")) {
+            return null;
+        }
+        String[] parts = string.split(Pattern.quote(","));
+        Location parsed = new Location(KoreAPI.getKore().worldFactory().getWorld(parts[0]), Double.valueOf(parts[1]), Double.valueOf(parts[2]), Double.valueOf(parts[3]));
+        parsed.setPitch(Float.valueOf(parts[4]));
+        parsed.setYaw(Float.valueOf(parts[5]));
+        return parsed;
     }
 
 }

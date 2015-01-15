@@ -5,6 +5,8 @@ import com.kosakorner.kosakore.api.type.Type;
 
 public interface IItemFactory {
 
+    public IItemStack parseItemStack(String type, int amount);
+
     public IItemStack createItemStack(Type type, int amount);
 
     public IItemStack createItemStack(Type type, int amount, IDamageHelper damage);
