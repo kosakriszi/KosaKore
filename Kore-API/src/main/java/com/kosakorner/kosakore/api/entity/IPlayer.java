@@ -6,15 +6,9 @@ import com.kosakorner.kosakore.api.world.Location;
 import java.net.InetSocketAddress;
 import java.util.UUID;
 
-public interface IPlayer {
-
-    public String getDisplayName();
-
-    public void setDisplayName(String name);
+public interface IPlayer extends IEntity {
 
     public UUID getUniqueID();
-
-    public Location getLocation();
 
     public IInventory getInventory();
 
@@ -37,8 +31,6 @@ public interface IPlayer {
     public void setSprinting(boolean state);
 
     public void giveExp(int amount);
-
-    public void teleport(Location location);
 
     public boolean hasPermission(String node);
 

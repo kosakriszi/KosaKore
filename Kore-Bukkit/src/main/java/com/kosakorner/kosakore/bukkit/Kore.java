@@ -3,6 +3,7 @@ package com.kosakorner.kosakore.bukkit;
 import com.kosakorner.kosakore.api.IKore;
 import com.kosakorner.kosakore.api.entity.IPlayer;
 import com.kosakorner.kosakore.api.item.IItemFactory;
+import com.kosakorner.kosakore.api.module.ModuleManager;
 import com.kosakorner.kosakore.api.world.IWorld;
 import com.kosakorner.kosakore.api.world.IWorldFactory;
 import com.kosakorner.kosakore.bukkit.compat.Vault;
@@ -17,6 +18,7 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -28,6 +30,8 @@ public class Kore extends JavaPlugin implements IKore {
     private static Logger log = Logger.getLogger("Minecraft");
 
     private PlayerUtils   playerUtils;
+
+    private ModuleManager moduleManager;
 
     private IItemFactory itemFactory;
     private IWorldFactory worldFactory;
@@ -41,6 +45,10 @@ public class Kore extends JavaPlugin implements IKore {
     }
 
     public void onEnable() {
+        File moduleDir = new File(getDataFolder().getParentFile().getParentFile(), "modules");
+        moduleDir.mkdir();
+        moduleManager = new ModuleManager(getClassLoader(), moduleDir);
+
         itemFactory = new BukkitItemFactory();
         worldFactory = new BukkitWorldFactory();
 
@@ -64,6 +72,10 @@ public class Kore extends JavaPlugin implements IKore {
 
     public static PlayerUtils playerUtils() {
         return instance().playerUtils;
+    }
+
+    public ModuleManager getModuleManager() {
+        return moduleManager;
     }
 
     public IPlayer getPlayer(UUID uuid) {

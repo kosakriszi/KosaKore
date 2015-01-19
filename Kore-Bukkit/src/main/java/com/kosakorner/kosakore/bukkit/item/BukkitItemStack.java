@@ -67,4 +67,8 @@ public class BukkitItemStack implements IItemStack {
     public List<IEnchantment> getEnchantments() {
         return null;
     }
+
+    public ItemStack getBackingItem() {
+        return backingItem;
+    }
 }

@@ -5,7 +5,7 @@ import java.lang.reflect.Method;
 public class KoreAPI {
 
     public static IKore getKore() {
-        Class kore;
+        Class<?> kore;
         try {
             kore = Class.forName("com.kosakorner.kosakore.bukkit.Kore");
             if (kore != null) {

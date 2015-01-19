@@ -2,15 +2,12 @@ package com.kosakorner.kosakore.bukkit.util;
 
 import com.kosakorner.kosakore.api.item.IItemStack;
 import com.kosakorner.kosakore.api.world.EnvironmentType;
-import com.kosakorner.kosakore.bukkit.Kore;
 import com.kosakorner.kosakore.bukkit.item.BukkitItemStack;
 import com.kosakorner.kosakore.bukkit.world.BukkitWorld;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 
 public class ConversionUtils {
 
@@ -18,13 +15,8 @@ public class ConversionUtils {
         return new BukkitItemStack(stack);
     }
 
-    // TODO: add enchantment conversions
     public static ItemStack fromKoreItemStack(IItemStack stack) {
-        ItemStack toReturn = new ItemStack(Material.getMaterial(stack.getType().name()), stack.getStackSize(), stack.getDurability());
-        ItemMeta meta = toReturn.getItemMeta();
-        meta.setDisplayName(stack.getName());
-        toReturn.setItemMeta(meta);
-        return toReturn;
+        return ((BukkitItemStack) stack).getBackingItem();
     }
 
     public static com.kosakorner.kosakore.api.world.Location toKoreLocation(Location location) {
