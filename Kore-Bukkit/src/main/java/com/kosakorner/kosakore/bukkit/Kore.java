@@ -27,6 +27,8 @@ import java.util.logging.Logger;
 
 public class Kore extends JavaPlugin implements IKore {
 
+    private static IKore instance;
+
     private static Logger log = Logger.getLogger("Minecraft");
 
     private PlayerUtils   playerUtils;
@@ -36,18 +38,22 @@ public class Kore extends JavaPlugin implements IKore {
     private IItemFactory itemFactory;
     private IWorldFactory worldFactory;
 
-    public static Kore instance() {
-        Plugin plugin = Bukkit.getPluginManager().getPlugin("KosaKore");
-        if (plugin instanceof Kore) {
-            return (Kore) plugin;
-        }
-        return null;
+    public static IKore instance() {
+        return instance;
     }
 
     public void onEnable() {
+        instance = this;
+
         File moduleDir = new File(getDataFolder().getParentFile().getParentFile(), "modules");
         moduleDir.mkdir();
-        moduleManager = new ModuleManager(getClassLoader(), moduleDir);
+        moduleManager = new ModuleManager(moduleDir, getClassLoader());
+        moduleManager.loadModules();
+
+        log("Modules");
+        for (String name : moduleManager.listModules()) {
+            log("Loaded: " + name);
+        }
 
         itemFactory = new BukkitItemFactory();
         worldFactory = new BukkitWorldFactory();
@@ -70,8 +76,8 @@ public class Kore extends JavaPlugin implements IKore {
         log.info("[KosaKore]: " + message);
     }
 
-    public static PlayerUtils playerUtils() {
-        return instance().playerUtils;
+    public PlayerUtils playerUtils() {
+        return playerUtils;
     }
 
     public ModuleManager getModuleManager() {

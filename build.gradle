@@ -1,18 +1,14 @@
-buildscript {
-    repositories {
-        mavenCentral()
-        maven {
-            url = 'https://oss.sonatype.org/content/repositories/snapshots/'
-        }
-    }
-}
-
 subprojects {
     apply plugin: 'java'
     apply plugin: 'maven'
 
     group = 'com.kosakorner.kosakore'
     version = '1.0'
+
+    configurations {
+        provided
+        compile.extendsFrom provided
+    }
 
     repositories {
         mavenCentral()
@@ -25,6 +21,19 @@ subprojects {
         }
         maven {
             url = 'http://maven.sk89q.com/repo/'
+        }
+    }
+
+    jar {
+        dependsOn configurations.runtime
+        from {
+            (configurations.runtime - configurations.provided).collect {
+                it.isDirectory() ? it : zipTree(it)
+            }
+        } {
+            exclude "META-INF/*.SF"
+            exclude "META-INF/*.DSA"
+            exclude "META-INF/*.RSA"
         }
     }
 }

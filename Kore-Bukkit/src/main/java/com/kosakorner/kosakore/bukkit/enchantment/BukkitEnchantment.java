@@ -1,6 +1,6 @@
 package com.kosakorner.kosakore.bukkit.enchantment;
 
-import com.kosakorner.kosakore.api.enchantment.EnchantmentType;
+import com.kosakorner.kosakore.api.type.EnchantmentType;
 import com.kosakorner.kosakore.api.enchantment.IEnchantment;
 
 public class BukkitEnchantment implements IEnchantment {

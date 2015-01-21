@@ -23,7 +23,7 @@ public class PlayerUtils implements Listener {
     File mapFile;
 
     public PlayerUtils() {
-        mapFile = new File(Kore.instance().getDataFolder(), "idMap");
+        mapFile = new File(((Kore) Kore.instance()).getDataFolder(), "idMap");
         idMap = readUUIDMap();
     }
 

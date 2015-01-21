@@ -1,7 +1,7 @@
 package com.kosakorner.kosakore.api.module;
 
-import com.kosakorner.kosakore.api.util.algorithm.CollectionUtils;
 import org.reflections.Reflections;
+import org.reflections.util.ConfigurationBuilder;
 
 import java.io.File;
 import java.net.URL;
@@ -10,13 +10,13 @@ import java.util.*;
 
 public class ModuleManager {
 
-    private Map<String, Module>   moduleInfos        = new HashMap<String, Module>();
-    private Map<String, Object>   moduleInstances    = new HashMap<String, Object>();
-    private Map<String, Class<?>> moduleClasses      = new HashMap<String, Class<?>>();
-    private List<Class<?>>        instantiationOrder = new ArrayList<Class<?>>();
-    private URLClassLoader loader;
+    private Map<String, Module>   moduleInfos     = new HashMap<String, Module>();
+    private Map<String, Object>   moduleInstances = new HashMap<String, Object>();
+    private Map<String, Class<?>> moduleClasses   = new HashMap<String, Class<?>>();
+    private List<Class<?>>        enableOrder     = new ArrayList<Class<?>>();
+    private Reflections loader;
 
-    public ModuleManager(ClassLoader loader, File moduleDir) {
+    public ModuleManager(File moduleDir, ClassLoader loader) {
         File[] files = moduleDir.listFiles();
         URL[] urls = new URL[files.length];
         for (int i = 0; i < files.length; i++) {
@@ -27,23 +27,27 @@ public class ModuleManager {
                 e.printStackTrace();
             }
         }
-        this.loader = new URLClassLoader(urls, loader);
+        ConfigurationBuilder config = new ConfigurationBuilder();
+        config.addUrls(urls);
+        config.addClassLoaders(URLClassLoader.newInstance(urls), loader);
+        this.loader = config.build();
     }
 
     public void loadModules() {
         try {
-            Reflections reflections = new Reflections(loader);
-            Set<Class<?>> modules = reflections.getTypesAnnotatedWith(Module.class);
+            Set<Class<?>> modules = loader.getTypesAnnotatedWith(Module.class);
 
             for (Class<?> module : modules) {
+                Object instance = module.newInstance();
                 Module annotation = module.getAnnotation(Module.class);
-
+                System.out.println(annotation.id());
                 if (!moduleClasses.containsKey(annotation.id())) {
                     moduleInfos.put(annotation.id(), annotation);
                     moduleClasses.put(annotation.id(), module);
+                    moduleInstances.put(annotation.id(), instance);
 
                     if (annotation.dependencies().equals("")) {
-                        instantiationOrder.add(module);
+                        enableOrder.add(module);
                     }
                     else {
                         String[] dependencies = annotation.dependencies().split(";");
@@ -52,21 +56,16 @@ public class ModuleManager {
                             String[] chunks = dependencyChunk.split(":");
 
                             if (chunks[0].equals("after")) {
-                                instantiationOrder.add(instantiationOrder.indexOf(moduleClasses.get(chunks[1])), module);
+                                enableOrder.add(enableOrder.indexOf(moduleClasses.get(chunks[1])), module);
                             }
                             else if (chunks[0].equals("required-after")) {
                                 if (moduleClasses.containsKey(chunks[1])) {
-                                    instantiationOrder.add(instantiationOrder.indexOf(moduleClasses.get(chunks[1])), module);
+                                    enableOrder.add(enableOrder.indexOf(moduleClasses.get(chunks[1])), module);
                                 }
                             }
                         }
                     }
                 }
-            }
-
-            Map<Class<?>, String> moduleClassesR = CollectionUtils.reverseMap(moduleClasses);
-            for (Class<?> module : instantiationOrder) {
-                moduleInstances.put(moduleClassesR.get(module), module.newInstance());
             }
         }
         catch (Exception e) {

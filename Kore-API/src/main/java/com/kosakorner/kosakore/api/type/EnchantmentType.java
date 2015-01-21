@@ -1,4 +1,4 @@
-package com.kosakorner.kosakore.api.enchantment;
+package com.kosakorner.kosakore.api.type;
 
 public enum EnchantmentType {
 
