@@ -3,25 +3,25 @@ package com.kosakorner.kosakore.bukkit;
 import com.kosakorner.kosakore.api.IKore;
 import com.kosakorner.kosakore.api.entity.IPlayer;
 import com.kosakorner.kosakore.api.item.IItemFactory;
-import com.kosakorner.kosakore.api.module.ModuleManager;
-import com.kosakorner.kosakore.api.world.IWorld;
+import com.kosakorner.kosakore.api.module.ModuleLoader;
 import com.kosakorner.kosakore.api.world.IWorldFactory;
-import com.kosakorner.kosakore.bukkit.compat.Vault;
 import com.kosakorner.kosakore.bukkit.entity.BukkitPlayer;
 import com.kosakorner.kosakore.bukkit.item.BukkitItemFactory;
-import com.kosakorner.kosakore.bukkit.util.LocationUtils;
 import com.kosakorner.kosakore.bukkit.util.PlayerUtils;
 import com.kosakorner.kosakore.bukkit.world.BukkitWorldFactory;
+import com.kosakorner.kosakore.net.Downloader;
+import com.kosakorner.kosakore.net.IDownloadListener;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
+import java.lang.reflect.Method;
+import java.net.URL;
+import java.net.URLClassLoader;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 import java.util.logging.Logger;
 
@@ -31,11 +31,11 @@ public class Kore extends JavaPlugin implements IKore {
 
     private static Logger log = Logger.getLogger("Minecraft");
 
-    private PlayerUtils   playerUtils;
+    private PlayerUtils playerUtils;
 
-    private ModuleManager moduleManager;
+    private ModuleLoader moduleLoader;
 
-    private IItemFactory itemFactory;
+    private IItemFactory  itemFactory;
     private IWorldFactory worldFactory;
 
     public static IKore instance() {
@@ -47,11 +47,10 @@ public class Kore extends JavaPlugin implements IKore {
 
         File moduleDir = new File(getDataFolder().getParentFile().getParentFile(), "modules");
         moduleDir.mkdir();
-        moduleManager = new ModuleManager(moduleDir, getClassLoader());
-        moduleManager.loadModules();
+        moduleLoader = new ModuleLoader(moduleDir);
 
         log("Modules");
-        for (String name : moduleManager.listModules()) {
+        for (String name : moduleLoader.listModules()) {
             log("Loaded: " + name);
         }
 
@@ -80,8 +79,12 @@ public class Kore extends JavaPlugin implements IKore {
         return playerUtils;
     }
 
-    public ModuleManager getModuleManager() {
-        return moduleManager;
+    public ModuleLoader getModuleLoader() {
+        return moduleLoader;
+    }
+
+    public File getWorkingDir() {
+        return getDataFolder();
     }
 
     public IPlayer getPlayer(UUID uuid) {
