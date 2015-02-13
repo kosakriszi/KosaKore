@@ -2,6 +2,7 @@ package com.kosakorner.kosakore.bukkit;
 
 import com.kosakorner.kosakore.api.IKore;
 import com.kosakorner.kosakore.api.entity.IPlayer;
+import com.kosakorner.kosakore.api.event.IEventBus;
 import com.kosakorner.kosakore.api.item.IItemFactory;
 import com.kosakorner.kosakore.api.module.ModuleLoader;
 import com.kosakorner.kosakore.api.world.IWorldFactory;
@@ -9,17 +10,12 @@ import com.kosakorner.kosakore.bukkit.entity.BukkitPlayer;
 import com.kosakorner.kosakore.bukkit.item.BukkitItemFactory;
 import com.kosakorner.kosakore.bukkit.util.PlayerUtils;
 import com.kosakorner.kosakore.bukkit.world.BukkitWorldFactory;
-import com.kosakorner.kosakore.net.Downloader;
-import com.kosakorner.kosakore.net.IDownloadListener;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
-import java.lang.reflect.Method;
-import java.net.URL;
-import java.net.URLClassLoader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -33,10 +29,10 @@ public class Kore extends JavaPlugin implements IKore {
 
     private PlayerUtils playerUtils;
 
-    private ModuleLoader moduleLoader;
-
     private IItemFactory  itemFactory;
     private IWorldFactory worldFactory;
+    private IEventBus     eventBus;
+    private ModuleLoader  moduleLoader;
 
     public static IKore instance() {
         return instance;
@@ -47,7 +43,7 @@ public class Kore extends JavaPlugin implements IKore {
 
         File moduleDir = new File(getDataFolder().getParentFile().getParentFile(), "modules");
         moduleDir.mkdir();
-        moduleLoader = new ModuleLoader(moduleDir);
+        moduleLoader = new ModuleLoader(this, moduleDir);
 
         log("Modules");
         for (String name : moduleLoader.listModules()) {
@@ -79,14 +75,6 @@ public class Kore extends JavaPlugin implements IKore {
         return playerUtils;
     }
 
-    public ModuleLoader getModuleLoader() {
-        return moduleLoader;
-    }
-
-    public File getWorkingDir() {
-        return getDataFolder();
-    }
-
     public IPlayer getPlayer(UUID uuid) {
         return new BukkitPlayer(Bukkit.getPlayer(uuid));
     }
@@ -105,6 +93,18 @@ public class Kore extends JavaPlugin implements IKore {
 
     public IWorldFactory worldFactory() {
         return worldFactory;
+    }
+
+    public IEventBus getEventBus() {
+        return null;
+    }
+
+    public ModuleLoader getModuleLoader() {
+        return moduleLoader;
+    }
+
+    public File getWorkingDir() {
+        return getDataFolder();
     }
 
 }

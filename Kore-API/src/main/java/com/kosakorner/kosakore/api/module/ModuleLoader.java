@@ -1,5 +1,8 @@
 package com.kosakorner.kosakore.api.module;
 
+import com.kosakorner.kosakore.api.IKore;
+import com.kosakorner.kosakore.api.event.Handler;
+
 import java.io.File;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
@@ -11,10 +14,12 @@ import java.util.jar.JarFile;
 
 public class ModuleLoader {
 
+    private IKore kore;
 
     private Map<String, ModuleWrapper> modules = new HashMap<String, ModuleWrapper>();
 
-    public ModuleLoader(File moduleDir) {
+    public ModuleLoader(IKore kore, File moduleDir) {
+        this.kore = kore;
         loadFiles(moduleDir);
     }
 
@@ -53,11 +58,18 @@ public class ModuleLoader {
         for (Annotation a : clazz.getAnnotations()) {
             if (a instanceof Module) {
                 try {
-                    ModuleWrapper wrapper = new ModuleWrapper(clazz.newInstance());
+                    ModuleWrapper wrapper = new ModuleWrapper(clazz);
                     modules.put(wrapper.getId(), wrapper);
                 }
                 catch (Exception e) {
                     e.printStackTrace();
+                }
+            }
+        }
+        for (Method method : clazz.getMethods()) {
+            for (Annotation a : method.getAnnotations()) {
+                if (a instanceof Handler) {
+
                 }
             }
         }
@@ -74,20 +86,6 @@ public class ModuleLoader {
             list.add(moduleInfo.getName());
         }
         return list;
-    }
-
-    public static String getClassAnnotationValue(final Class classType, final Class annotationType, final String attributeName) {
-        String value = null;
-        final Annotation annotation = classType.getAnnotation(annotationType);
-        if (annotation != null) {
-            try {
-                value = (String) annotation.annotationType().getMethod(attributeName, (Class<?>[]) new Class[0]).invoke(annotation, new Object[0]);
-            }
-            catch (Exception ex) {
-                ex.printStackTrace();
-            }
-        }
-        return value;
     }
 
     protected static Method ADD_URL;
