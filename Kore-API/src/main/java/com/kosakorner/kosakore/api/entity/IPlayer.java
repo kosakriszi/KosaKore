@@ -1,7 +1,6 @@
 package com.kosakorner.kosakore.api.entity;
 
 import com.kosakorner.kosakore.api.inventory.IInventory;
-import com.kosakorner.kosakore.api.world.Location;
 
 import java.net.InetSocketAddress;
 import java.util.UUID;

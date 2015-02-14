@@ -1,6 +1,6 @@
 package com.kosakorner.kosakore.bukkit.util;
 
-import evilmidget38.UUIDFetcher;
+import com.evilmidget38.UUIDFetcher;
 import com.kosakorner.kosakore.bukkit.Kore;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;

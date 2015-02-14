@@ -8,6 +8,7 @@ public class PlayerEvent extends Event {
     protected IPlayer player;
 
     public PlayerEvent(IPlayer player) {
+        super();
         this.player = player;
     }
 

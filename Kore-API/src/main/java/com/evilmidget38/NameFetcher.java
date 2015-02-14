@@ -1,4 +1,4 @@
-package evilmidget38;
+package com.evilmidget38;
 
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
