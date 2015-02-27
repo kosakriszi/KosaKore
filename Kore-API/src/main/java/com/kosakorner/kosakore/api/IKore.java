@@ -1,6 +1,7 @@
 package com.kosakorner.kosakore.api;
 
 import com.kosakorner.kosakore.api.entity.IPlayer;
+import com.kosakorner.kosakore.api.event.HandlerRegistry;
 import com.kosakorner.kosakore.api.event.IEventBus;
 import com.kosakorner.kosakore.api.item.IItemFactory;
 import com.kosakorner.kosakore.api.module.ModuleLoader;
@@ -21,6 +22,8 @@ public interface IKore {
     public IWorldFactory worldFactory();
 
     public IEventBus getEventBus();
+
+    public HandlerRegistry getHandlerRegistry();
 
     public ModuleLoader getModuleLoader();
 
