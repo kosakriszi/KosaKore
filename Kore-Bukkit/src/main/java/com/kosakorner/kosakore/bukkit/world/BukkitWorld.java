@@ -29,7 +29,7 @@ public class BukkitWorld implements IWorld {
     }
 
     public IChunk getChunkAt(Location location) {
-        return null;
+        return new BukkitChunk(backingWorld.getChunkAt(ConversionUtils.fromKoreLocation(location)));
     }
 
 }
