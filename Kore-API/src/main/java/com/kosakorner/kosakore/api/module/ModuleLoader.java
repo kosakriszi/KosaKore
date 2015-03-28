@@ -67,15 +67,6 @@ public class ModuleLoader {
                 }
             }
         }
-        for (Method method : clazz.getMethods()) {
-            for (Annotation a : method.getAnnotations()) {
-                if (a instanceof Handler) {
-                    if (Event.class.isAssignableFrom(method.getParameterTypes()[0])) {
-                        kore.getHandlerRegistry().registerHandler((Class<? extends Event>) method.getParameterTypes()[0], method);
-                    }
-                }
-            }
-        }
     }
 
     public Object getModule(String id) {

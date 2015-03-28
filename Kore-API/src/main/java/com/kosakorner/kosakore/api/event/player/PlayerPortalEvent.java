@@ -9,6 +9,4 @@ public class PlayerPortalEvent extends PlayerMoveEvent {
         super(player, from, to);
     }
 
-
-
 }

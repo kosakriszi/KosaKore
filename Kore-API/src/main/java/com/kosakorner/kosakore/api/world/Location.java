@@ -2,6 +2,8 @@ package com.kosakorner.kosakore.api.world;
 
 import com.kosakorner.kosakore.api.KoreAPI;
 import com.kosakorner.kosakore.api.block.IBlock;
+import com.kosakorner.kosakore.api.entity.IEntity;
+import com.kosakorner.kosakore.api.type.Type;
 
 import java.util.regex.Pattern;
 
@@ -254,6 +256,74 @@ public class Location {
         parsed.setPitch(Float.valueOf(parts[4]));
         parsed.setYaw(Float.valueOf(parts[5]));
         return parsed;
+    }
+
+    public boolean isSafe() {
+        IBlock above = getWorld().getBlockAt(getBlockX(), getBlockY() + 1, getBlockZ());
+        IBlock below = getWorld().getBlockAt(getBlockX(), getBlockY() - 1, getBlockZ());
+
+        if (below.getType().equals(Type.AIR)) {
+            return false;
+        }
+        if (below.getType().equals(Type.LAVA)) {
+            return false;
+        }
+        if (below.getType().equals(Type.STATIONARY_LAVA)) {
+            return false;
+        }
+        if (below.getType().equals(Type.CACTUS)) {
+            return false;
+        }
+        if ((
+                    getBlock().getType().equals(Type.AIR) ||
+                    getBlock().getType().equals(Type.TORCH) ||
+                    getBlock().getType().equals(Type.REDSTONE_TORCH_OFF) ||
+                    getBlock().getType().equals(Type.REDSTONE_TORCH_ON) ||
+                    getBlock().getType().equals(Type.REDSTONE_WIRE) ||
+                    getBlock().getType().equals(Type.CROPS) ||
+                    getBlock().getType().equals(Type.CARROT) ||
+                    getBlock().getType().equals(Type.POTATO) ||
+                    getBlock().getType().equals(Type.LONG_GRASS) ||
+                    getBlock().getType().equals(Type.RED_ROSE) ||
+                    getBlock().getType().equals(Type.YELLOW_FLOWER) ||
+                    getBlock().getType().equals(Type.MELON_STEM) ||
+                    getBlock().getType().equals(Type.PUMPKIN_STEM) ||
+                    getBlock().getType().equals(Type.DEAD_BUSH) ||
+                    getBlock().getType().equals(Type.SIGN_POST) ||
+                    getBlock().getType().equals(Type.SIGN) ||
+                    getBlock().getType().equals(Type.DOUBLE_PLANT) ||
+                    getBlock().getType().equals(Type.STONE_PLATE) ||
+                    getBlock().getType().equals(Type.WOOD_PLATE) ||
+                    getBlock().getType().equals(Type.STEP)
+            ) && (above.getType().equals(Type.AIR))) {
+            return true;
+        }
+        return false;
+    }
+
+    public void removeMobs(int radius) {
+        int px = getBlockX();
+        int py = getBlockY();
+        int pz = getBlockZ();
+        for (int x = -radius; x <= radius; x++) {
+            for (int z = -radius; z <= radius; z++) {
+                IChunk c = getWorld().getChunkAt(new Location(getWorld(), px + x * 16, py, pz + z * 16));
+                for (IEntity e : c.getEntities()) {
+                    switch (e.getType()) {
+                        case SPIDER:
+                        case CREEPER:
+                        case ENDERMAN:
+                        case SKELETON:
+                        case ZOMBIE:
+                        case WITCH:
+                            e.remove();
+                            break;
+                        default:
+                            break;
+                    }
+                }
+            }
+        }
     }
 
 }

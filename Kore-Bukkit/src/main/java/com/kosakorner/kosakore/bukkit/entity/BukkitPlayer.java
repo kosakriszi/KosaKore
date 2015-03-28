@@ -10,12 +10,17 @@ import org.bukkit.entity.Player;
 import java.net.InetSocketAddress;
 import java.util.UUID;
 
-public class BukkitPlayer implements IPlayer {
+public class BukkitPlayer extends BukkitEntity implements IPlayer {
 
     private Player backingPlayer;
 
     public BukkitPlayer(Player player) {
+        super(player);
         backingPlayer = player;
+    }
+
+    public UUID getUniqueID() {
+        return backingPlayer.getUniqueId();
     }
 
     public String getDisplayName() {
@@ -24,14 +29,6 @@ public class BukkitPlayer implements IPlayer {
 
     public void setDisplayName(String name) {
         backingPlayer.setDisplayName(name);
-    }
-
-    public UUID getUniqueID() {
-        return backingPlayer.getUniqueId();
-    }
-
-    public Location getLocation() {
-        return ConversionUtils.toKoreLocation(backingPlayer.getLocation());
     }
 
     public IInventory getInventory() {
@@ -76,10 +73,6 @@ public class BukkitPlayer implements IPlayer {
 
     public void giveExp(int amount) {
         backingPlayer.giveExp(amount);
-    }
-
-    public void teleport(Location location) {
-        backingPlayer.teleport(ConversionUtils.fromKoreLocation(location));
     }
 
     public boolean hasPermission(String node) {

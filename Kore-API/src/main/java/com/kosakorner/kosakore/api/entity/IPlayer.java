@@ -9,6 +9,10 @@ public interface IPlayer extends IEntity {
 
     public UUID getUniqueID();
 
+    public String getDisplayName();
+
+    public void setDisplayName(String name);
+
     public IInventory getInventory();
 
     public InetSocketAddress getAddress();

@@ -10,4 +10,6 @@ public interface IWorld {
 
     public IBlock getBlockAt(int x, int y, int z);
 
+    public IChunk getChunkAt(Location location);
+
 }

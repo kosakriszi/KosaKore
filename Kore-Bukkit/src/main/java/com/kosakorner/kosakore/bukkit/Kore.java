@@ -2,13 +2,13 @@ package com.kosakorner.kosakore.bukkit;
 
 import com.kosakorner.kosakore.api.IKore;
 import com.kosakorner.kosakore.api.entity.IPlayer;
+import com.kosakorner.kosakore.api.event.EventBus;
 import com.kosakorner.kosakore.api.event.HandlerRegistry;
-import com.kosakorner.kosakore.api.event.IEventBus;
-import com.kosakorner.kosakore.api.item.IItemFactory;
+import com.kosakorner.kosakore.api.item.ItemFactory;
 import com.kosakorner.kosakore.api.module.ModuleLoader;
 import com.kosakorner.kosakore.api.world.IWorldFactory;
 import com.kosakorner.kosakore.bukkit.entity.BukkitPlayer;
-import com.kosakorner.kosakore.bukkit.event.BukkitEventBus;
+import com.kosakorner.kosakore.bukkit.event.BukkitEventHandler;
 import com.kosakorner.kosakore.bukkit.item.BukkitItemFactory;
 import com.kosakorner.kosakore.bukkit.util.PlayerUtils;
 import com.kosakorner.kosakore.bukkit.world.BukkitWorldFactory;
@@ -31,9 +31,9 @@ public class Kore extends JavaPlugin implements IKore {
 
     private PlayerUtils playerUtils;
 
-    private IItemFactory    itemFactory;
+    private ItemFactory     itemFactory;
     private IWorldFactory   worldFactory;
-    private IEventBus       eventBus;
+    private EventBus        eventBus;
     private HandlerRegistry handlerRegistry;
     private ModuleLoader    moduleLoader;
 
@@ -49,7 +49,7 @@ public class Kore extends JavaPlugin implements IKore {
 
         itemFactory = new BukkitItemFactory();
         worldFactory = new BukkitWorldFactory();
-        eventBus = new BukkitEventBus();
+        eventBus = new EventBus(this);
         handlerRegistry = new HandlerRegistry();
 
         if (getDataFolder().mkdir()) {
@@ -67,6 +67,7 @@ public class Kore extends JavaPlugin implements IKore {
 
         PluginManager manager = getServer().getPluginManager();
         manager.registerEvents(playerUtils, this);
+        manager.registerEvents(new BukkitEventHandler(this), this);
     }
 
     public void onDisable() {
@@ -93,7 +94,7 @@ public class Kore extends JavaPlugin implements IKore {
         return toReturn;
     }
 
-    public IItemFactory itemFactory() {
+    public ItemFactory itemFactory() {
         return itemFactory;
     }
 
@@ -101,7 +102,7 @@ public class Kore extends JavaPlugin implements IKore {
         return worldFactory;
     }
 
-    public IEventBus getEventBus() {
+    public EventBus getEventBus() {
         return eventBus;
     }
 
