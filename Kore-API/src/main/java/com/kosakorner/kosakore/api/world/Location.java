@@ -243,6 +243,10 @@ public class Location {
         return toSquare * toSquare;
     }
 
+    public String toString() {
+        return "(" + world.getName() + "," + x + "," + y + "," + z + ")";
+    }
+
     public static String toString(Location location) {
         return location.getWorld().getName() + "," + location.getX() + "," + location.getY() + "," + location.getZ() + "," + location.getPitch()  + "," + location.getYaw();
     }

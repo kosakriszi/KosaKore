@@ -16,6 +16,10 @@ public class BukkitWorld implements IWorld {
         backingWorld = world;
     }
 
+    public World getBackingWorld() {
+        return backingWorld;
+    }
+
     public String getName() {
         return backingWorld.getName();
     }

@@ -44,8 +44,7 @@ public class Kore extends JavaPlugin implements IKore {
     public void onEnable() {
         instance = this;
 
-        File moduleDir = new File(getDataFolder().getParentFile().getParentFile(), "modules");
-        moduleDir.mkdir();
+        File moduleDir = getDataFolder().getParentFile();
 
         itemFactory = new BukkitItemFactory();
         worldFactory = new BukkitWorldFactory();
