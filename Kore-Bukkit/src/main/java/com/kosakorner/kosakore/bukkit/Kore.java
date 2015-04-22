@@ -12,6 +12,7 @@ import com.kosakorner.kosakore.api.world.IWorldFactory;
 import com.kosakorner.kosakore.bukkit.adapter.BukkitEconomyAdapter;
 import com.kosakorner.kosakore.bukkit.adapter.BukkitPermissionAdapter;
 import com.kosakorner.kosakore.bukkit.adapter.BukkitWorldEditAdapter;
+import com.kosakorner.kosakore.bukkit.adapter.BukkitWorldGuardAdapter;
 import com.kosakorner.kosakore.bukkit.entity.BukkitPlayer;
 import com.kosakorner.kosakore.bukkit.event.BukkitEventHandler;
 import com.kosakorner.kosakore.bukkit.item.BukkitItemFactory;
@@ -64,6 +65,7 @@ public class Kore extends JavaPlugin implements IKore {
 
         adapters = new HashMap<Adapters, IAdapter>();
         adapters.put(Adapters.WORLDEDIT, new BukkitWorldEditAdapter());
+        adapters.put(Adapters.WORLDGUARD, new BukkitWorldGuardAdapter());
         adapters.put(Adapters.PERMISSION, new BukkitPermissionAdapter());
         adapters.put(Adapters.ECONOMY, new BukkitEconomyAdapter());
 
