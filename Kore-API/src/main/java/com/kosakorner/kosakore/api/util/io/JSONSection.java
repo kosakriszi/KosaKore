@@ -51,10 +51,10 @@ public class JSONSection extends JSONObject {
                             return super.get(key);
                         }
 
-                        return new JSONSection((JSONObject) section).setRoot(root).get(key);
+                        return ((JSONSection) section).get(key);
                     }
 
-                    section = new JSONSection((JSONObject) section).setRoot(root).get(keyPath.substring(i2, i1));
+                    section = ((JSONSection) section).getSubSection(keyPath.substring(i2, i1));
                 }
                 while (section != null);
 
@@ -64,43 +64,92 @@ public class JSONSection extends JSONObject {
     }
 
     public void set(String keyPath, Object value) {
-        char separator = '.';
-        int i1 = -1;
-        JSONSection current = this;
+        JSONSection root = this.getRoot();
+        if (root == null) {
+            throw new IllegalStateException("Cannot use section without a root");
+        } else {
+            char separator = '.';
+            int i1 = -1;
+            Object section = this;
 
-        int i2;
-        String key;
-        while ((i1 = keyPath.indexOf(separator, i2 = i1 + 1)) != -1) {
-            key = keyPath.substring(i2, i1);
+            int i2;
+            String key;
+            while ((i1 = keyPath.indexOf(separator, i2 = i1 + 1)) != -1) {
+                key = keyPath.substring(i2, i1);
+                JSONSection result;
+                JSONObject temp = (JSONObject) super.get(key);
+                if (temp != null) {
+                    result = new JSONSection(temp);
+                } else {
+                    result = null;
+                }
+                if (result == null) {
+                    section = ((JSONSection) section).createSubSection(key);
+                } else {
+                    section = result;
+                }
+            }
 
-            JSONSection subSection;
-            JSONObject temp = (JSONObject) super.get(key);
-            if (temp != null) {
-                subSection = new JSONSection(temp);
+            key = keyPath.substring(i2);
+            if (section == this) {
+                if (value == null) {
+                    remove(key);
+                } else {
+                    put(key, value);
+                }
             }
             else {
-                subSection = null;
-            }
-
-            if (subSection == null) {
-                current.put(key, new JSONObject());
-            }
-            else {
-                current = subSection;
+                ((JSONSection) section).set(key, value);
             }
         }
+    }
 
-        key = keyPath.substring(i2);
-        if (current == this) {
-            if (value == null) {
-                remove(key);
+    public JSONSection getSubSection(String keyPath) {
+        Object val = this.get(keyPath);
+        if (val != null) {
+            return val instanceof JSONObject ? new JSONSection((JSONObject) val) : null;
+        } else {
+            val = this.get(keyPath);
+            return val instanceof JSONObject ? this.createSubSection(keyPath) : null;
+        }
+    }
+
+    public JSONSection createSubSection(String keyPath) {
+        JSONSection root = this.getRoot();
+        if (root == null) {
+            throw new IllegalStateException("Cannot create section without a root");
+        } else {
+            char separator = '.';
+            int i1 = -1;
+            Object section = this;
+
+            int i2;
+            String key;
+            while ((i1 = keyPath.indexOf(separator, i2 = i1 + 1)) != -1) {
+                key = keyPath.substring(i2, i1);
+                JSONSection result;
+                JSONObject temp = (JSONObject) super.get(key);
+                if (temp != null) {
+                    result = new JSONSection(temp);
+                } else {
+                    result = null;
+                }
+                if (result == null) {
+                    section = ((JSONSection) section).createSubSection(key);
+                } else {
+                    section = result;
+                }
+            }
+
+            key = keyPath.substring(i2);
+            if (section == this) {
+                JSONSection result1 = new JSONSection();
+                put(key, result1);
+                return result1;
             }
             else {
-                put(key, value);
+                return ((JSONSection) section).createSubSection(key);
             }
-        }
-        else {
-            current.set(key, value);
         }
     }
 

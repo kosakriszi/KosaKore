@@ -1,5 +1,6 @@
-package com.kosakorner.kosakore.bukkit.compat;
+package com.kosakorner.kosakore.bukkit.adapter;
 
+import com.kosakorner.kosakore.api.adapter.IWorldEditAdapter;
 import com.kosakorner.kosakore.api.world.Location;
 import com.sk89q.worldedit.CuboidClipboard;
 import com.sk89q.worldedit.EditSession;
@@ -12,18 +13,18 @@ import org.bukkit.plugin.Plugin;
 
 import java.io.File;
 
-public class WorldEdit {
+public class BukkitWorldEditAdapter implements IWorldEditAdapter {
 
     private static WorldEditPlugin worldEdit;
 
-    static {
+    public BukkitWorldEditAdapter() {
         Plugin plugin = Bukkit.getPluginManager().getPlugin("WorldEdit");
         if (plugin instanceof WorldEditPlugin) {
             worldEdit = (WorldEditPlugin) plugin;
         }
     }
 
-    public static void pasteSchematic(Location location, File schematic) {
+    public void pasteSchematic(Location location, File schematic) {
         try {
             Vector vector = new Vector(location.getBlockX(), location.getBlockY(), location.getBlockZ());
             SchematicFormat format = SchematicFormat.getFormat(schematic);
@@ -33,8 +34,7 @@ public class WorldEdit {
             EditSession session = worldEdit.getWorldEdit().getEditSessionFactory().getEditSession(new BukkitWorld(((com.kosakorner.kosakore.bukkit.world.BukkitWorld) location.getWorld()).getBackingWorld()), 999999999);
             CuboidClipboard cc = format.load(schematic);
             cc.paste(session, vector, false);
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             throw new RuntimeException("Unable to load schematic file! Oh noes!", e);
         }
     }

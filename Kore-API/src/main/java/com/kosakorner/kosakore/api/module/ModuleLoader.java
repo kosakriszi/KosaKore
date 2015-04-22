@@ -1,8 +1,6 @@
 package com.kosakorner.kosakore.api.module;
 
 import com.kosakorner.kosakore.api.IKore;
-import com.kosakorner.kosakore.api.event.Event;
-import com.kosakorner.kosakore.api.event.Handler;
 
 import java.io.File;
 import java.lang.annotation.Annotation;
@@ -21,6 +19,9 @@ public class ModuleLoader {
 
     public ModuleLoader(IKore kore, File moduleDir) {
         this.kore = kore;
+        if (!moduleDir.exists()) {
+            moduleDir.mkdir();
+        }
         loadFiles(moduleDir);
     }
 

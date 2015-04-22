@@ -252,7 +252,7 @@ public class Location {
     }
 
     public static Location fromString(String string) {
-        if (string.equals("null")) {
+        if (string == null || string.equals("null") || string.equals("")) {
             return null;
         }
         String[] parts = string.split(Pattern.quote(","));
