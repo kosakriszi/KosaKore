@@ -6,13 +6,14 @@ import com.kosakorner.kosakore.api.world.Location;
 
 public class PlayerMoveEvent extends PlayerEvent implements Cancelable {
 
-    protected boolean canceled;
+    protected static boolean canceled;
 
     private Location from;
     private Location to;
 
     public PlayerMoveEvent(IPlayer player, Location from, Location to) {
         super(player);
+        canceled = false;
         this.from = from;
         this.to = to;
     }
@@ -29,7 +30,7 @@ public class PlayerMoveEvent extends PlayerEvent implements Cancelable {
         return canceled;
     }
 
-    public void setCancelled(boolean canceled) {
-        this.canceled = canceled;
+    public void setCancelled(boolean state) {
+        canceled = state;
     }
 }
