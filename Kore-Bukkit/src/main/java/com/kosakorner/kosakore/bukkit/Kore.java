@@ -89,10 +89,6 @@ public class Kore extends JavaPlugin implements IKore {
         log.info("[KosaKore]: " + message);
     }
 
-    public PlayerUtils playerUtils() {
-        return playerUtils;
-    }
-
     public IPlayer getPlayer(UUID uuid) {
         return new BukkitPlayer(Bukkit.getPlayer(uuid));
     }
