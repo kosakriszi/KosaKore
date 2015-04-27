@@ -1,14 +1,18 @@
 package com.kosakorner.kosakore.bukkit.command;
 
-import org.bukkit.ChatColor;
+import com.kosakorner.kosakore.api.command.Chat;
+import com.kosakorner.kosakore.api.command.ICommand;
+import com.kosakorner.kosakore.api.command.ICommandSender;
+import com.kosakorner.kosakore.bukkit.entity.BukkitPlayer;
 import org.bukkit.command.*;
+import org.bukkit.entity.Player;
 
 import java.util.*;
 
 public class CommandDispatcher implements CommandExecutor, TabCompleter {
 
-    private String                    mRootCommandName;
-    private String                    mRootCommandDescription;
+    private String mRootCommandName;
+    private String mRootCommandDescription;
     private HashMap<String, ICommand> mCommands;
 
     public CommandDispatcher(String commandName, String description) {
@@ -25,7 +29,8 @@ public class CommandDispatcher implements CommandExecutor, TabCompleter {
     }
 
     @Override
-    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+    public boolean onCommand(CommandSender source, Command command, String label, String[] args) {
+        ICommandSender sender = new BukkitPlayer((Player) source);
         if (args.length == 0) {
             displayUsage(sender, label, null);
             return true;
@@ -62,17 +67,17 @@ public class CommandDispatcher implements CommandExecutor, TabCompleter {
 
         // Check that the sender is correct
         if (!com.canBeConsole() && (sender instanceof ConsoleCommandSender || sender instanceof RemoteConsoleCommandSender)) {
-            sender.sendMessage(ChatColor.RED + "/" + label + " " + subCommand + " cannot be called from the console.");
+            sender.sendMessage(Chat.RED + "/" + label + " " + subCommand + " cannot be called from the console.");
             return true;
         }
         if (!com.canBeCommandBlock() && sender instanceof BlockCommandSender) {
-            sender.sendMessage(ChatColor.RED + "/" + label + " " + subCommand + " cannot be called from a command block.");
+            sender.sendMessage(Chat.RED + "/" + label + " " + subCommand + " cannot be called from a command block.");
             return true;
         }
 
         // Check that they have permission
         if (com.getPermission() != null && !sender.hasPermission(com.getPermission())) {
-            sender.sendMessage(ChatColor.RED + "You do not have permission to use /" + label + " " + subCommand);
+            sender.sendMessage(Chat.RED + "You do not have permission to use /" + label + " " + subCommand);
             return true;
         }
 
@@ -81,10 +86,10 @@ public class CommandDispatcher implements CommandExecutor, TabCompleter {
             String usageString;
 
             if (lines.length > 1) {
-                usageString = ChatColor.RED + "Usage:\n    ";
+                usageString = Chat.RED + "Usage:\n    ";
             }
             else {
-                usageString = ChatColor.RED + "Usage: ";
+                usageString = Chat.RED + "Usage: ";
             }
 
             boolean first = true;
@@ -94,7 +99,7 @@ public class CommandDispatcher implements CommandExecutor, TabCompleter {
                 }
                 first = false;
 
-                usageString += ChatColor.GRAY + "/" + label + " " + line;
+                usageString += Chat.GRAY + "/" + label + " " + line;
             }
 
             sender.sendMessage(usageString);
@@ -103,7 +108,7 @@ public class CommandDispatcher implements CommandExecutor, TabCompleter {
         return true;
     }
 
-    private void displayUsage(CommandSender sender, String label, String subcommand) {
+    private void displayUsage(ICommandSender sender, String label, String subcommand) {
         String usage = "";
 
         boolean first = true;
@@ -121,10 +126,10 @@ public class CommandDispatcher implements CommandExecutor, TabCompleter {
             }
 
             if (odd) {
-                usage += ChatColor.WHITE;
+                usage += Chat.WHITE;
             }
             else {
-                usage += ChatColor.GRAY;
+                usage += Chat.GRAY;
             }
             odd = !odd;
 
@@ -139,10 +144,10 @@ public class CommandDispatcher implements CommandExecutor, TabCompleter {
         }
 
         if (subcommand != null) {
-            sender.sendMessage(ChatColor.RED + "Unknown command: " + ChatColor.RESET + "/" + label + " " + ChatColor.GOLD + subcommand);
+            sender.sendMessage(Chat.RED + "Unknown command: " + Chat.RESET + "/" + label + " " + Chat.GOLD + subcommand);
         }
         else {
-            sender.sendMessage(ChatColor.RED + "No command specified: " + ChatColor.RESET + "/" + label + ChatColor.GOLD + " <command>");
+            sender.sendMessage(Chat.RED + "No command specified: " + Chat.RESET + "/" + label + Chat.GOLD + " <command>");
         }
 
         if (!first) {
@@ -152,12 +157,11 @@ public class CommandDispatcher implements CommandExecutor, TabCompleter {
         else {
             sender.sendMessage("There are no commands available to you");
         }
-
-
     }
 
     @Override
-    public List<String> onTabComplete(CommandSender sender, Command command, String label, String[] args) {
+    public List<String> onTabComplete(CommandSender source, Command command, String label, String[] args) {
+        ICommandSender sender = new BukkitPlayer((Player) source);
         List<String> results = new ArrayList<String>();
         if (args.length == 1) // Tab completing the sub command
         {
@@ -243,7 +247,7 @@ public class CommandDispatcher implements CommandExecutor, TabCompleter {
         }
 
         @Override
-        public String[] getUsageString(String label, CommandSender sender) {
+        public String[] getUsageString(String label, ICommandSender sender) {
             return new String[]{label};
         }
 
@@ -263,13 +267,13 @@ public class CommandDispatcher implements CommandExecutor, TabCompleter {
         }
 
         @Override
-        public boolean onCommand(CommandSender sender, String label, String[] args) {
+        public boolean onCommand(ICommandSender sender, String label, String[] args) {
             if (args.length != 0) {
                 return false;
             }
 
-            sender.sendMessage(ChatColor.GOLD + mRootCommandDescription);
-            sender.sendMessage(ChatColor.GOLD + "Commands: \n");
+            sender.sendMessage(Chat.GOLD + mRootCommandDescription);
+            sender.sendMessage(Chat.GOLD + "Commands: \n");
 
             for (ICommand command : mCommands.values()) {
                 // Dont show commands that are irrelevant
@@ -294,20 +298,20 @@ public class CommandDispatcher implements CommandExecutor, TabCompleter {
 
                     first = false;
 
-                    usageString += ChatColor.GOLD + "/" + mRootCommandName + " " + line;
+                    usageString += Chat.GOLD + "/" + mRootCommandName + " " + line;
                 }
 
                 sender.sendMessage(usageString);
                 String[] descriptionLines = command.getDescription().split("\n");
                 for (String line : descriptionLines) {
-                    sender.sendMessage("  " + ChatColor.WHITE + line);
+                    sender.sendMessage("  " + Chat.WHITE + line);
                 }
             }
             return true;
         }
 
         @Override
-        public List<String> onTabComplete(CommandSender sender, String label, String[] args) {
+        public List<String> onTabComplete(ICommandSender sender, String label, String[] args) {
             return null;
         }
 

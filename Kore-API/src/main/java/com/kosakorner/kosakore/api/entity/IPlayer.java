@@ -1,13 +1,16 @@
 package com.kosakorner.kosakore.api.entity;
 
+import com.kosakorner.kosakore.api.command.ICommandSender;
 import com.kosakorner.kosakore.api.inventory.IInventory;
 
 import java.net.InetSocketAddress;
 import java.util.UUID;
 
-public interface IPlayer extends IEntity {
+public interface IPlayer extends ICommandSender, IEntity {
 
     public UUID getUniqueID();
+
+    public String getName();
 
     public String getDisplayName();
 
@@ -21,8 +24,6 @@ public interface IPlayer extends IEntity {
 
     public void chat(String message);
 
-    public void sendMessage(String message);
-
     public boolean executeCommand(String command);
 
     public boolean isSneaking();
@@ -34,7 +35,5 @@ public interface IPlayer extends IEntity {
     public void setSprinting(boolean state);
 
     public void giveExp(int amount);
-
-    public boolean hasPermission(String node);
 
 }

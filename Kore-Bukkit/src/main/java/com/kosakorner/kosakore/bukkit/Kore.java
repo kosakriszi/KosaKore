@@ -50,7 +50,7 @@ public class Kore extends JavaPlugin implements IKore {
     public void onEnable() {
         instance = this;
 
-        File moduleDir = new File(getDataFolder().getParentFile().getParentFile(), "modules");
+        File moduleDir = new File(Bukkit.getWorldContainer(), "modules");
 
         itemFactory = new BukkitItemFactory();
         worldFactory = new BukkitWorldFactory();
@@ -97,12 +97,38 @@ public class Kore extends JavaPlugin implements IKore {
         return new BukkitPlayer(Bukkit.getPlayer(uuid));
     }
 
+    public UUID getUUIDFromName(String name) {
+        return playerUtils.getUUIDFromName(name);
+    }
+
+    public String getNameFromUUID(UUID uuid) {
+        return playerUtils.getNameFromUUID(uuid);
+    }
+
     public List<IPlayer> getPlayers() {
         List<IPlayer> toReturn = new ArrayList<IPlayer>();
         for (Player player : Bukkit.getOnlinePlayers()) {
             toReturn.add(new BukkitPlayer(player));
         }
         return toReturn;
+    }
+
+    public List<IPlayer> matchPlayer(String partialName) {
+        List<IPlayer> matchedPlayers = new ArrayList<IPlayer>();
+
+        for (IPlayer player : getPlayers()) {
+            String name = player.getName();
+            if (partialName.equalsIgnoreCase(name)) {
+                matchedPlayers.clear();
+                matchedPlayers.add(player);
+                break;
+            }
+
+            if (name.toLowerCase().contains(partialName.toLowerCase())) {
+                matchedPlayers.add(player);
+            }
+        }
+        return matchedPlayers;
     }
 
     public ItemFactory itemFactory() {

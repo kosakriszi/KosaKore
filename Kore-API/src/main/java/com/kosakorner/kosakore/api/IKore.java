@@ -17,7 +17,13 @@ public interface IKore {
 
     public IPlayer getPlayer(UUID uuid);
 
+    public UUID getUUIDFromName(String name);
+
+    public String getNameFromUUID(UUID uuid);
+
     public List<IPlayer> getPlayers();
+
+    public List<IPlayer> matchPlayer(String partialName);
 
     public ItemFactory itemFactory();
 

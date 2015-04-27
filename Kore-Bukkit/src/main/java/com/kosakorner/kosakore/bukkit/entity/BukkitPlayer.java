@@ -1,16 +1,16 @@
 package com.kosakorner.kosakore.bukkit.entity;
 
+import com.kosakorner.kosakore.api.command.ICommandSender;
+import com.kosakorner.kosakore.api.command.SenderType;
 import com.kosakorner.kosakore.api.entity.IPlayer;
 import com.kosakorner.kosakore.api.inventory.IInventory;
-import com.kosakorner.kosakore.api.world.Location;
 import com.kosakorner.kosakore.bukkit.inventory.BukkitInventory;
-import com.kosakorner.kosakore.bukkit.util.ConversionUtils;
 import org.bukkit.entity.Player;
 
 import java.net.InetSocketAddress;
 import java.util.UUID;
 
-public class BukkitPlayer extends BukkitEntity implements IPlayer {
+public class BukkitPlayer extends BukkitEntity implements IPlayer, ICommandSender {
 
     private Player backingPlayer;
 
@@ -21,6 +21,10 @@ public class BukkitPlayer extends BukkitEntity implements IPlayer {
 
     public UUID getUniqueID() {
         return backingPlayer.getUniqueId();
+    }
+
+    public String getName() {
+        return backingPlayer.getName();
     }
 
     public String getDisplayName() {
@@ -47,10 +51,6 @@ public class BukkitPlayer extends BukkitEntity implements IPlayer {
         backingPlayer.chat(message);
     }
 
-    public void sendMessage(String message) {
-        backingPlayer.sendMessage(message);
-    }
-
     public boolean executeCommand(String command) {
         return backingPlayer.performCommand(command);
     }
@@ -73,6 +73,14 @@ public class BukkitPlayer extends BukkitEntity implements IPlayer {
 
     public void giveExp(int amount) {
         backingPlayer.giveExp(amount);
+    }
+
+    public SenderType getSenderType() {
+        return SenderType.PLAYER;
+    }
+
+    public void sendMessage(String message) {
+        backingPlayer.sendMessage(message);
     }
 
     public boolean hasPermission(String node) {

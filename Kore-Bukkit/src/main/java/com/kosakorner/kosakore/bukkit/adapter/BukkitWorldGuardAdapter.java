@@ -3,6 +3,7 @@ package com.kosakorner.kosakore.bukkit.adapter;
 import com.kosakorner.kosakore.api.adapter.IWorldGuardAdapter;
 import com.kosakorner.kosakore.api.world.IWorld;
 import com.kosakorner.kosakore.api.world.Location;
+import com.kosakorner.kosakore.bukkit.util.ConversionUtils;
 import com.kosakorner.kosakore.bukkit.world.BukkitWorld;
 import com.sk89q.worldedit.BlockVector;
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
@@ -19,6 +20,8 @@ import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
 
 import java.util.Collection;
+import java.util.Collections;
+import java.util.Set;
 import java.util.UUID;
 
 public class BukkitWorldGuardAdapter implements IWorldGuardAdapter {
@@ -144,6 +147,15 @@ public class BukkitWorldGuardAdapter implements IWorldGuardAdapter {
         } catch (StorageException e) {
             e.printStackTrace();
         }
+    }
+
+    public Set<String> getApplicableRegions(Location location) {
+        Set<ProtectedRegion> regions = worldGuard.getRegionManager(Bukkit.getWorld(location.getWorld().getName())).getApplicableRegions(ConversionUtils.fromKoreLocation(location)).getRegions();
+        Set<String> matches = Collections.emptySet();
+        for (ProtectedRegion region : regions) {
+            matches.add(region.getId());
+        }
+        return matches;
     }
 
     private static String parseFlag(String string) {
