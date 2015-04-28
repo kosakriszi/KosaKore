@@ -3,6 +3,7 @@ package com.kosakorner.kosakore.bukkit;
 import com.kosakorner.kosakore.api.IKore;
 import com.kosakorner.kosakore.api.adapter.Adapters;
 import com.kosakorner.kosakore.api.adapter.IAdapter;
+import com.kosakorner.kosakore.api.command.IDispatcherFactory;
 import com.kosakorner.kosakore.api.entity.IPlayer;
 import com.kosakorner.kosakore.api.event.EventBus;
 import com.kosakorner.kosakore.api.event.HandlerRegistry;
@@ -13,6 +14,7 @@ import com.kosakorner.kosakore.bukkit.adapter.BukkitEconomyAdapter;
 import com.kosakorner.kosakore.bukkit.adapter.BukkitPermissionAdapter;
 import com.kosakorner.kosakore.bukkit.adapter.BukkitWorldEditAdapter;
 import com.kosakorner.kosakore.bukkit.adapter.BukkitWorldGuardAdapter;
+import com.kosakorner.kosakore.bukkit.command.BukkitDispatcherFactory;
 import com.kosakorner.kosakore.bukkit.entity.BukkitPlayer;
 import com.kosakorner.kosakore.bukkit.event.BukkitEventHandler;
 import com.kosakorner.kosakore.bukkit.item.BukkitItemFactory;
@@ -35,11 +37,12 @@ public class Kore extends JavaPlugin implements IKore {
 
     private PlayerUtils playerUtils;
 
-    private ItemFactory itemFactory;
-    private IWorldFactory worldFactory;
-    private EventBus eventBus;
-    private HandlerRegistry handlerRegistry;
-    private ModuleLoader moduleLoader;
+    private ItemFactory        itemFactory;
+    private IWorldFactory      worldFactory;
+    private IDispatcherFactory dispatcherFactory;
+    private EventBus           eventBus;
+    private HandlerRegistry    handlerRegistry;
+    private ModuleLoader       moduleLoader;
 
     private Map<Adapters, IAdapter> adapters;
 
@@ -54,6 +57,7 @@ public class Kore extends JavaPlugin implements IKore {
 
         itemFactory = new BukkitItemFactory();
         worldFactory = new BukkitWorldFactory();
+        dispatcherFactory = new BukkitDispatcherFactory();
         eventBus = new EventBus(this);
         handlerRegistry = new HandlerRegistry();
 
@@ -135,15 +139,19 @@ public class Kore extends JavaPlugin implements IKore {
         return worldFactory;
     }
 
-    public EventBus getEventBus() {
+    public IDispatcherFactory dispatcherFactory() {
+        return dispatcherFactory;
+    }
+
+    public EventBus eventBus() {
         return eventBus;
     }
 
-    public HandlerRegistry getHandlerRegistry() {
+    public HandlerRegistry handlerRegistry() {
         return handlerRegistry;
     }
 
-    public ModuleLoader getModuleLoader() {
+    public ModuleLoader moduleLoader() {
         return moduleLoader;
     }
 

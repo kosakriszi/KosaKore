@@ -13,7 +13,7 @@ public class EventBus {
     }
 
     public <E extends Event> E fire(E event) {
-        List<HandlerWrapper> handlers = kore.getHandlerRegistry().getHandlers(event.getClass());
+        List<HandlerWrapper> handlers = kore.handlerRegistry().getHandlers(event.getClass());
         if (handlers != null) {
             for (HandlerWrapper handler : handlers) {
                 try {

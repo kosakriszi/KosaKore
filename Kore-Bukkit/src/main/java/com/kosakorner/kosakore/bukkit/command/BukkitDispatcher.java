@@ -3,19 +3,20 @@ package com.kosakorner.kosakore.bukkit.command;
 import com.kosakorner.kosakore.api.command.Chat;
 import com.kosakorner.kosakore.api.command.ICommand;
 import com.kosakorner.kosakore.api.command.ICommandSender;
+import com.kosakorner.kosakore.api.command.IDispatcher;
 import com.kosakorner.kosakore.bukkit.entity.BukkitPlayer;
 import org.bukkit.command.*;
 import org.bukkit.entity.Player;
 
 import java.util.*;
 
-public class CommandDispatcher implements CommandExecutor, TabCompleter {
+public class BukkitDispatcher implements IDispatcher, CommandExecutor, TabCompleter {
 
     private String mRootCommandName;
     private String mRootCommandDescription;
     private HashMap<String, ICommand> mCommands;
 
-    public CommandDispatcher(String commandName, String description) {
+    public BukkitDispatcher(String commandName, String description) {
         mCommands = new HashMap<String, ICommand>();
 
         mRootCommandName = commandName;
