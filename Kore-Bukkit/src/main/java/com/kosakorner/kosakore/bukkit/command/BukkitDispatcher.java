@@ -31,6 +31,7 @@ public class BukkitDispatcher implements IDispatcher, CommandExecutor, TabComple
 
     @Override
     public boolean onCommand(CommandSender source, Command command, String label, String[] args) {
+        // TODO this should allow block senders and console senders through, will crash on command
         ICommandSender sender = new BukkitPlayer((Player) source);
         if (args.length == 0) {
             displayUsage(sender, label, null);

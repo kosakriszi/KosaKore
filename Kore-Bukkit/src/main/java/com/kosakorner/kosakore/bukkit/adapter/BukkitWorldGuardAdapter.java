@@ -20,7 +20,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
 
 import java.util.Collection;
-import java.util.Collections;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
@@ -151,7 +151,7 @@ public class BukkitWorldGuardAdapter implements IWorldGuardAdapter {
 
     public Set<String> getApplicableRegions(Location location) {
         Set<ProtectedRegion> regions = worldGuard.getRegionManager(Bukkit.getWorld(location.getWorld().getName())).getApplicableRegions(ConversionUtils.fromKoreLocation(location)).getRegions();
-        Set<String> matches = Collections.emptySet();
+        Set<String> matches = new HashSet<String>();
         for (ProtectedRegion region : regions) {
             matches.add(region.getId());
         }
