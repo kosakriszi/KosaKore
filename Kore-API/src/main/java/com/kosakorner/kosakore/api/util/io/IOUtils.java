@@ -9,7 +9,7 @@ import java.util.List;
 
 public class IOUtils {
 
-    public static List<?> readArrayFromFile(File file) {
+    public static List readArrayFromFile(File file) {
         List<Object> array = new ArrayList<Object>();
         if (!file.exists()) {
             return array;
@@ -30,7 +30,7 @@ public class IOUtils {
         return array;
     }
 
-    public static void writeArrayToFile(List<?> array, File file) {
+    public static void writeArrayToFile(List array, File file) {
         StringBuilder contents = new StringBuilder();
         for (Object object : array) {
             contents.append(object).append("\n");

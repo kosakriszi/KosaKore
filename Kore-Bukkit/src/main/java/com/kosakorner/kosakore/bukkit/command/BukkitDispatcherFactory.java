@@ -10,6 +10,7 @@ import org.bukkit.plugin.Plugin;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
+import java.util.Arrays;
 
 public class BukkitDispatcherFactory implements IDispatcherFactory {
 
@@ -38,12 +39,13 @@ public class BukkitDispatcherFactory implements IDispatcherFactory {
         }
     }
 
-    public IDispatcher createCommandDispatcher(String pluginName, String command, String description) {
+    public IDispatcher createCommandDispatcher(String pluginName, String command, String[] aliases, String description) {
         try {
             BukkitDispatcher dispatcher = new BukkitDispatcher(command, description);
             Constructor<PluginCommand> constructor = PluginCommand.class.getDeclaredConstructor(String.class, Plugin.class);
             constructor.setAccessible(true);
             PluginCommand pluginCommand = constructor.newInstance(command, Kore.instance());
+            pluginCommand.setAliases(Arrays.asList(aliases));
             pluginCommand.setExecutor(dispatcher);
             pluginCommand.setTabCompleter(dispatcher);
             boolean success = commandMap.register(pluginName, pluginCommand);
