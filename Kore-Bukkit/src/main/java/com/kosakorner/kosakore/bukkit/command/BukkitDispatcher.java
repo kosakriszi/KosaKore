@@ -29,10 +29,18 @@ public class BukkitDispatcher implements IDispatcher, CommandExecutor, TabComple
         mCommands.put(command.getName().toLowerCase(), command);
     }
 
-    @Override
     public boolean onCommand(CommandSender source, Command command, String label, String[] args) {
-        // TODO this should allow block senders and console senders through, will crash on command
-        ICommandSender sender = new BukkitPlayer((Player) source);
+        ICommandSender sender = null;
+        if (source instanceof Player) {
+            sender = new BukkitPlayer((Player) source);
+        }
+        else if (source instanceof ConsoleCommandSender) {
+            sender = new BukkitConsoleCommandSender((ConsoleCommandSender) source);
+        }
+        else if (source instanceof BlockCommandSender) {
+            sender = new BukkitBlockCommandSender((BlockCommandSender) source);
+        }
+
         if (args.length == 0) {
             displayUsage(sender, label, null);
             return true;
@@ -161,7 +169,6 @@ public class BukkitDispatcher implements IDispatcher, CommandExecutor, TabComple
         }
     }
 
-    @Override
     public List<String> onTabComplete(CommandSender source, Command command, String label, String[] args) {
         ICommandSender sender = new BukkitPlayer((Player) source);
         List<String> results = new ArrayList<String>();
@@ -233,42 +240,34 @@ public class BukkitDispatcher implements IDispatcher, CommandExecutor, TabComple
 
     private class InternalHelp implements ICommand {
 
-        @Override
         public String getName() {
             return "help";
         }
 
-        @Override
         public String[] getAliases() {
             return null;
         }
 
-        @Override
         public String getPermission() {
             return null;
         }
 
-        @Override
         public String[] getUsageString(String label, ICommandSender sender) {
             return new String[]{label};
         }
 
-        @Override
         public String getDescription() {
             return "Displays this screen.";
         }
 
-        @Override
         public boolean canBeConsole() {
             return true;
         }
 
-        @Override
         public boolean canBeCommandBlock() {
             return true;
         }
 
-        @Override
         public boolean onCommand(ICommandSender sender, String label, String[] args) {
             if (args.length != 0) {
                 return false;
@@ -312,7 +311,6 @@ public class BukkitDispatcher implements IDispatcher, CommandExecutor, TabComple
             return true;
         }
 
-        @Override
         public List<String> onTabComplete(ICommandSender sender, String label, String[] args) {
             return null;
         }

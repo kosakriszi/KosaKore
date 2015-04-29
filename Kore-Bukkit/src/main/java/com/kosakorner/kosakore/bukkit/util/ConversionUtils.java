@@ -20,11 +20,21 @@ public class ConversionUtils {
     }
 
     public static com.kosakorner.kosakore.api.world.Location toKoreLocation(Location location) {
-        return new com.kosakorner.kosakore.api.world.Location(new BukkitWorld(location.getWorld()), location.getX(), location.getY(), location.getZ(), location.getYaw(), location.getPitch());
+        if (location != null) {
+            return new com.kosakorner.kosakore.api.world.Location(new BukkitWorld(location.getWorld()), location.getX(), location.getY(), location.getZ(), location.getYaw(), location.getPitch());
+        }
+        else {
+            return null;
+        }
     }
 
     public static Location fromKoreLocation(com.kosakorner.kosakore.api.world.Location location) {
-        return new Location(Bukkit.getWorld(location.getWorld().getName()), location.getX(), location.getY(), location.getZ(), location.getYaw(), location.getPitch());
+        if (location != null) {
+            return new Location(Bukkit.getWorld(location.getWorld().getName()), location.getX(), location.getY(), location.getZ(), location.getYaw(), location.getPitch());
+        }
+        else {
+            return null;
+        }
     }
 
     public static EnvironmentType toKoreEnvironment(World.Environment environment) {
