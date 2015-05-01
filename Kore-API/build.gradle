@@ -1,4 +1,14 @@
 dependencies {
     compile 'com.google.code.gson:gson:2.3.1'
+    compile 'ninja.leaping.configurate:configurate-json:1.1.1'
     compile 'com.googlecode.json-simple:json-simple:1.1.1'
+}
+
+shadowJar {
+    classifier 'dist'
+    dependencies {
+        include(dependency('ninja.leaping.configurate:configurate-core:1.1.1'))
+        include(dependency('ninja.leaping.configurate:configurate-json:1.1.1'))
+        include(dependency('com.fasterxml.jackson.core:jackson-core:2.5.2'))
+    }
 }

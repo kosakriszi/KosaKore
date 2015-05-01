@@ -76,11 +76,11 @@ public class BukkitDispatcher implements IDispatcher, CommandExecutor, TabComple
         }
 
         // Check that the sender is correct
-        if (!com.canBeConsole() && (sender instanceof ConsoleCommandSender || sender instanceof RemoteConsoleCommandSender)) {
+        if (!com.canBeConsole() && (source instanceof ConsoleCommandSender || source instanceof RemoteConsoleCommandSender)) {
             sender.sendMessage(Chat.RED + "/" + label + " " + subCommand + " cannot be called from the console.");
             return true;
         }
-        if (!com.canBeCommandBlock() && sender instanceof BlockCommandSender) {
+        if (!com.canBeCommandBlock() && source instanceof BlockCommandSender) {
             sender.sendMessage(Chat.RED + "/" + label + " " + subCommand + " cannot be called from a command block.");
             return true;
         }
