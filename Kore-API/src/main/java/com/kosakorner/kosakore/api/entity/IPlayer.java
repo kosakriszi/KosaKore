@@ -3,7 +3,6 @@ package com.kosakorner.kosakore.api.entity;
 import com.kosakorner.kosakore.api.command.ICommandSender;
 import com.kosakorner.kosakore.api.inventory.IInventory;
 
-import java.net.InetSocketAddress;
 import java.util.UUID;
 
 public interface IPlayer extends ICommandSender, IEntity {
@@ -18,7 +17,7 @@ public interface IPlayer extends ICommandSender, IEntity {
 
     public IInventory getInventory();
 
-    public InetSocketAddress getAddress();
+    public String getAddress();
 
     public void kickPlayer(String reason);
 

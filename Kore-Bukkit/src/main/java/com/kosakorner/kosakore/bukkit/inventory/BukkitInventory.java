@@ -20,7 +20,7 @@ public class BukkitInventory implements IInventory {
     }
 
     public boolean containsAtLeast(IItemStack stack, int amount) {
-        return false;
+        return backingInventory.containsAtLeast(ConversionUtils.fromKoreItemStack(stack), amount);
     }
 
     public void remove(Type type) {

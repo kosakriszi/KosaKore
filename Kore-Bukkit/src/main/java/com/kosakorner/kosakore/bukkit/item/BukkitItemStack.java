@@ -49,7 +49,7 @@ public class BukkitItemStack implements IItemStack {
     }
 
     public Type getType() {
-        return null;
+        return Type.getType(backingItem.getType().name());
     }
 
     public int getStackSize() {

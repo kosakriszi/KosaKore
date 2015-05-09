@@ -1,25 +1,25 @@
-package com.kosakorner.kosakore.bukkit.entity;
+package com.kosakore.canary.entity;
 
+import com.kosakore.canary.inventory.CanaryInventory;
 import com.kosakorner.kosakore.api.command.ICommandSender;
 import com.kosakorner.kosakore.api.command.SenderType;
 import com.kosakorner.kosakore.api.entity.IPlayer;
 import com.kosakorner.kosakore.api.inventory.IInventory;
-import com.kosakorner.kosakore.bukkit.inventory.BukkitInventory;
-import org.bukkit.entity.Player;
+import net.canarymod.api.entity.living.humanoid.Player;
 
 import java.util.UUID;
 
-public class BukkitPlayer extends BukkitEntity implements IPlayer, ICommandSender {
+public class CanaryPlayer extends CanaryEntity implements IPlayer, ICommandSender {
 
     private Player backingPlayer;
 
-    public BukkitPlayer(Player player) {
+    public CanaryPlayer(Player player) {
         super(player);
         backingPlayer = player;
     }
 
     public UUID getUniqueID() {
-        return backingPlayer.getUniqueId();
+        return backingPlayer.getUUID();
     }
 
     public String getName() {
@@ -35,15 +35,15 @@ public class BukkitPlayer extends BukkitEntity implements IPlayer, ICommandSende
     }
 
     public IInventory getInventory() {
-        return new BukkitInventory(backingPlayer.getInventory());
+        return new CanaryInventory(backingPlayer.getInventory());
     }
 
     public String getAddress() {
-        return backingPlayer.getAddress().toString();
+        return backingPlayer.getIP();
     }
 
     public void kickPlayer(String reason) {
-        backingPlayer.kickPlayer(reason);
+        backingPlayer.kick(reason);
     }
 
     public void chat(String message) {
@@ -51,7 +51,7 @@ public class BukkitPlayer extends BukkitEntity implements IPlayer, ICommandSende
     }
 
     public boolean executeCommand(String command) {
-        return backingPlayer.performCommand(command);
+        return backingPlayer.executeCommand(new String[]{command});
     }
 
     public boolean isSneaking() {
@@ -71,7 +71,7 @@ public class BukkitPlayer extends BukkitEntity implements IPlayer, ICommandSende
     }
 
     public void giveExp(int amount) {
-        backingPlayer.giveExp(amount);
+        backingPlayer.addExperience(amount);
     }
 
     public SenderType getSenderType() {
@@ -79,7 +79,7 @@ public class BukkitPlayer extends BukkitEntity implements IPlayer, ICommandSende
     }
 
     public void sendMessage(String message) {
-        backingPlayer.sendMessage(message);
+        backingPlayer.message(message);
     }
 
     public boolean hasPermission(String node) {

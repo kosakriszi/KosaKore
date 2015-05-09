@@ -20,7 +20,7 @@ import java.util.UUID;
 public class PlayerUtils implements Listener {
 
     public Map<String, UUID> idMap;
-    File mapFile;
+    private File mapFile;
 
     public PlayerUtils() {
         mapFile = new File(((Kore) Kore.instance()).getDataFolder(), "idMap");

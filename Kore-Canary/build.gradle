@@ -1,0 +1,14 @@
+dependencies {
+    compile project(':Kore-API')
+    compile 'net.canarymod:CanaryLib:[1.0.0,)'
+}
+
+shadowJar {
+    classifier 'dist'
+    dependencies {
+        include(dependency('com.kosakorner.kosakore:Kore-API:1.0'))
+    }
+    from {
+        zipTree(project(':Kore-API').tasks.getByName("shadowJar").archivePath)
+    }
+}

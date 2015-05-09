@@ -1,5 +1,9 @@
-package com.kosakorner.kosakore.bukkit;
+package com.kosakore.canary;
 
+import com.kosakore.canary.command.CanaryDispatcherFactory;
+import com.kosakore.canary.entity.CanaryPlayer;
+import com.kosakore.canary.item.CanaryItemFactory;
+import com.kosakore.canary.world.CanaryWorldFactory;
 import com.kosakorner.kosakore.api.IKore;
 import com.kosakorner.kosakore.api.adapter.Adapters;
 import com.kosakorner.kosakore.api.adapter.IAdapter;
@@ -10,32 +14,21 @@ import com.kosakorner.kosakore.api.event.HandlerRegistry;
 import com.kosakorner.kosakore.api.item.ItemFactory;
 import com.kosakorner.kosakore.api.module.ModuleLoader;
 import com.kosakorner.kosakore.api.world.IWorldFactory;
-import com.kosakorner.kosakore.bukkit.adapter.BukkitEconomyAdapter;
-import com.kosakorner.kosakore.bukkit.adapter.BukkitPermissionAdapter;
-import com.kosakorner.kosakore.bukkit.adapter.BukkitWorldEditAdapter;
-import com.kosakorner.kosakore.bukkit.adapter.BukkitWorldGuardAdapter;
-import com.kosakorner.kosakore.bukkit.command.BukkitDispatcherFactory;
-import com.kosakorner.kosakore.bukkit.entity.BukkitPlayer;
-import com.kosakorner.kosakore.bukkit.event.BukkitEventHandler;
-import com.kosakorner.kosakore.bukkit.item.BukkitItemFactory;
-import com.kosakorner.kosakore.bukkit.util.PlayerUtils;
-import com.kosakorner.kosakore.bukkit.world.BukkitWorldFactory;
-import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
-import org.bukkit.plugin.PluginManager;
-import org.bukkit.plugin.java.JavaPlugin;
+import net.canarymod.Canary;
+import net.canarymod.api.entity.living.humanoid.Player;
+import net.canarymod.logger.Logman;
+import net.canarymod.plugin.Plugin;
 
 import java.io.File;
-import java.util.*;
-import java.util.logging.Logger;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 
-public class Kore extends JavaPlugin implements IKore {
+public class Kore extends Plugin implements IKore {
 
     private static IKore instance;
 
-    private static Logger log = Logger.getLogger("Minecraft");
-
-    private PlayerUtils playerUtils;
+    private static Logman log = Logman.getLogman("KosaKore");
 
     private ItemFactory        itemFactory;
     private IWorldFactory      worldFactory;
@@ -44,34 +37,20 @@ public class Kore extends JavaPlugin implements IKore {
     private HandlerRegistry    handlerRegistry;
     private ModuleLoader       moduleLoader;
 
-    private Map<Adapters, IAdapter> adapters;
-
     public static IKore instance() {
         return instance;
     }
 
-    public void onEnable() {
+    public boolean enable() {
         instance = this;
 
-        File moduleDir = new File(Bukkit.getWorldContainer(), "modules");
+        File moduleDir = new File(Canary.getWorkingDirectory(), "modules");
 
-        itemFactory = new BukkitItemFactory();
-        worldFactory = new BukkitWorldFactory();
-        dispatcherFactory = new BukkitDispatcherFactory();
+        itemFactory = new CanaryItemFactory();
+        worldFactory = new CanaryWorldFactory();
+        dispatcherFactory = new CanaryDispatcherFactory();
         eventBus = new EventBus(this);
         handlerRegistry = new HandlerRegistry();
-
-        if (getDataFolder().mkdir()) {
-            log("Creating directories.");
-        }
-
-        playerUtils = new PlayerUtils();
-
-        adapters = new HashMap<Adapters, IAdapter>();
-        adapters.put(Adapters.WORLDEDIT, new BukkitWorldEditAdapter());
-        adapters.put(Adapters.WORLDGUARD, new BukkitWorldGuardAdapter());
-        adapters.put(Adapters.PERMISSION, new BukkitPermissionAdapter());
-        adapters.put(Adapters.ECONOMY, new BukkitEconomyAdapter());
 
         moduleLoader = new ModuleLoader(this, moduleDir);
 
@@ -80,35 +59,33 @@ public class Kore extends JavaPlugin implements IKore {
             log("Loaded: " + name);
         }
 
-        PluginManager manager = getServer().getPluginManager();
-        manager.registerEvents(playerUtils, this);
-        manager.registerEvents(new BukkitEventHandler(this), this);
-    }
-
-    public void onDisable() {
-        playerUtils.writeUUIDMap();
+        return true;
     }
 
     public static void log(String message) {
-        log.info("[KosaKore] " + message);
+        log.info(message);
+    }
+
+    public void disable() {
+
     }
 
     public IPlayer getPlayer(UUID uuid) {
-        return new BukkitPlayer(Bukkit.getPlayer(uuid));
+        return null;
     }
 
     public UUID getUUIDFromName(String name) {
-        return playerUtils.getUUIDFromName(name);
+        return null;
     }
 
     public String getNameFromUUID(UUID uuid) {
-        return playerUtils.getNameFromUUID(uuid);
+        return Canary.getServer().getPlayerFromUUID(uuid).getName();
     }
 
     public List<IPlayer> getPlayers() {
         List<IPlayer> toReturn = new ArrayList<IPlayer>();
-        for (Player player : Bukkit.getOnlinePlayers()) {
-            toReturn.add(new BukkitPlayer(player));
+        for (Player player : Canary.getServer().getPlayerList()) {
+            toReturn.add(new CanaryPlayer(player));
         }
         return toReturn;
     }
@@ -156,11 +133,11 @@ public class Kore extends JavaPlugin implements IKore {
     }
 
     public IAdapter getAdapter(Adapters type) {
-        return adapters.get(type);
+        return null;
     }
 
     public File getWorkingDir() {
-        return getDataFolder();
+        return new File(getConfig().getFilePath()).getParentFile();
     }
 
 }
