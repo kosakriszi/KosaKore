@@ -1,7 +1,7 @@
 rootProject.name = 'KosaKore'
 
-include 'Kore-API', 'Kore-Bukkit', 'Kore-Canary'
+include 'Kore-API', 'Kore-Bukkit'//, 'Kore-Canary'
 
 project(':Kore-API').projectDir = file('Kore-API')
 project(':Kore-Bukkit').projectDir = file('Kore-Bukkit')
-project(':Kore-Canary').projectDir = file('Kore-Canary')
+//project(':Kore-Canary').projectDir = file('Kore-Canary')

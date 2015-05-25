@@ -14,24 +14,19 @@ import java.util.Arrays;
 
 public class BukkitDispatcherFactory implements IDispatcherFactory {
 
-    private static final String[] craftServerClasses = new String[]{"org.bukkit.craftbukkit.v1_8_R2.CraftServer", "org.bukkit.craftbukkit.v1_8_R1.CraftServer"};
-
     SimpleCommandMap commandMap;
 
     public BukkitDispatcherFactory() {
         Class<?> craftServerClass = null;
-        for (String className : craftServerClasses) {
-            try {
-                craftServerClass = Class.forName(className);
-                if (craftServerClass != null) {
-                    Method getCommandMap = craftServerClass.getMethod("getCommandMap");
-                    commandMap = (SimpleCommandMap) getCommandMap.invoke(Bukkit.getServer());
-                }
-                break;
+        try {
+            craftServerClass = Bukkit.getServer().getClass();
+            if (craftServerClass != null) {
+                Method getCommandMap = craftServerClass.getMethod("getCommandMap");
+                commandMap = (SimpleCommandMap) getCommandMap.invoke(Bukkit.getServer());
             }
-            catch (Exception e) {
+        }
+        catch (Exception e) {
 
-            }
         }
 
         if (craftServerClass == null) {
