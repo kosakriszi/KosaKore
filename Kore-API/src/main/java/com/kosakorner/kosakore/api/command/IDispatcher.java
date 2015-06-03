@@ -1,7 +1,15 @@
 package com.kosakorner.kosakore.api.command;
 
+/**
+ * A command executor and tab completer.
+ */
 public interface IDispatcher {
 
-    public void registerCommand(ICommand command);
+    /**
+     * Register a command class with this dispatcher.
+     *
+     * @param command The command to register
+     */
+    void registerCommand(Class<?> command);
 
 }

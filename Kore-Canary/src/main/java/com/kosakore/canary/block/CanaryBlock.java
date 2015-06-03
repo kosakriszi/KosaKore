@@ -1,8 +1,8 @@
 package com.kosakore.canary.block;
 
-import com.kosakorner.kosakore.api.block.IBlock;
 import com.kosakorner.kosakore.api.inventory.IInventory;
 import com.kosakorner.kosakore.api.type.Type;
+import com.kosakorner.kosakore.api.world.IBlock;
 import net.canarymod.api.world.blocks.Block;
 import net.canarymod.api.world.blocks.BlockType;
 

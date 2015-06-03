@@ -31,7 +31,7 @@ public enum ColorType implements IDamageHelper {
         }
     }
 
-    private ColorType(int damage) {
+    ColorType(int damage) {
         this.damage = damage;
     }
 

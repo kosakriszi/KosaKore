@@ -1,8 +1,8 @@
-package com.kosakorner.kosakore.bukkit.block;
+package com.kosakorner.kosakore.bukkit.world;
 
-import com.kosakorner.kosakore.api.block.IBlock;
 import com.kosakorner.kosakore.api.inventory.IInventory;
 import com.kosakorner.kosakore.api.type.Type;
+import com.kosakorner.kosakore.api.world.IBlock;
 import com.kosakorner.kosakore.bukkit.inventory.BukkitInventory;
 import org.bukkit.Material;
 import org.bukkit.block.Block;

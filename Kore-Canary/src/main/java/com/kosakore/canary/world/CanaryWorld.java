@@ -1,7 +1,7 @@
 package com.kosakore.canary.world;
 
 import com.kosakore.canary.block.CanaryBlock;
-import com.kosakorner.kosakore.api.block.IBlock;
+import com.kosakorner.kosakore.api.world.IBlock;
 import com.kosakorner.kosakore.api.world.IChunk;
 import com.kosakorner.kosakore.api.world.IWorld;
 import com.kosakorner.kosakore.api.world.Location;

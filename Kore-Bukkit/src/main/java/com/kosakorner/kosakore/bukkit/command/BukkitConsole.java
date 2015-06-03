@@ -1,25 +1,29 @@
 package com.kosakorner.kosakore.bukkit.command;
 
 import com.kosakorner.kosakore.api.command.ICommandSender;
-import com.kosakorner.kosakore.api.command.SenderType;
 import org.bukkit.command.ConsoleCommandSender;
 
-public class BukkitConsoleCommandSender implements ICommandSender {
+/**
+ * The console command sender.
+ */
+public class BukkitConsole implements ICommandSender {
 
     private ConsoleCommandSender console;
 
-    public BukkitConsoleCommandSender(ConsoleCommandSender console) {
+    public BukkitConsole(ConsoleCommandSender console) {
         this.console = console;
     }
 
-    public SenderType getSenderType() {
-        return SenderType.CONSOLE;
-    }
-
+    /**
+     * {@inheritDoc}
+     */
     public void sendMessage(String message) {
         console.sendMessage(message);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public boolean hasPermission(String node) {
         return true;
     }

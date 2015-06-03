@@ -21,7 +21,7 @@ public enum TreeType implements IDamageHelper {
         }
     }
 
-    private TreeType(int damage) {
+    TreeType(int damage) {
         this.damage = damage;
     }
 

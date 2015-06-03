@@ -1,7 +1,7 @@
 package com.kosakorner.kosakore.bukkit.command;
 
-import com.kosakorner.kosakore.api.command.Chat;
-import com.kosakorner.kosakore.api.command.ICommand;
+import com.kosakorner.kosakore.api.command.Color;
+import com.kosakorner.kosakore.api.command.CommandWrap;
 import com.kosakorner.kosakore.api.command.ICommandSender;
 import com.kosakorner.kosakore.api.command.IDispatcher;
 import com.kosakorner.kosakore.bukkit.entity.BukkitPlayer;
@@ -12,33 +12,57 @@ import java.util.*;
 
 public class BukkitDispatcher implements IDispatcher, CommandExecutor, TabCompleter {
 
-    private String mRootCommandName;
-    private String mRootCommandDescription;
-    private HashMap<String, ICommand> mCommands;
+    private String                       mRootCommandName;
+    private String                       mRootCommandDescription;
+    private HashMap<String, CommandWrap> mCommands;
+    private CommandWrap                  rootCommand;
 
     public BukkitDispatcher(String commandName, String description) {
-        mCommands = new HashMap<String, ICommand>();
+        mCommands = new HashMap<>();
 
         mRootCommandName = commandName;
         mRootCommandDescription = description;
-
-        registerCommand(new InternalHelp());
     }
 
-    public void registerCommand(ICommand command) {
-        mCommands.put(command.getName().toLowerCase(), command);
+    public void registerCommand(Class<?> command) {
+        try {
+            if (command.isAnnotationPresent(com.kosakorner.kosakore.api.command.Command.class)) {
+                com.kosakorner.kosakore.api.command.Command commandInfo = command.getAnnotation(com.kosakorner.kosakore.api.command.Command.class);
+                if (commandInfo.aliases()[0].equals(mRootCommandName)) {
+                    rootCommand = new CommandWrap(commandInfo, command);
+                }
+                else {
+                    mCommands.put(commandInfo.aliases()[0], new CommandWrap(commandInfo, command));
+                }
+            }
+            for (Class<?> found : command.getClasses()) {
+                if (!found.isAnnotationPresent(com.kosakorner.kosakore.api.command.Command.class)) {
+                    continue;
+                }
+                com.kosakorner.kosakore.api.command.Command commandInfo = found.getAnnotation(com.kosakorner.kosakore.api.command.Command.class);
+                if (commandInfo.aliases()[0].equals(mRootCommandName)) {
+                    rootCommand = new CommandWrap(commandInfo, command);
+                }
+                else {
+                    mCommands.put(commandInfo.aliases()[0], new CommandWrap(commandInfo, found));
+                }
+            }
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public boolean onCommand(CommandSender source, Command command, String label, String[] args) {
-        ICommandSender sender = null;
-        if (source instanceof Player) {
-            sender = new BukkitPlayer((Player) source);
-        }
-        else if (source instanceof ConsoleCommandSender) {
-            sender = new BukkitConsoleCommandSender((ConsoleCommandSender) source);
+        ICommandSender sender;
+        if (source instanceof ConsoleCommandSender) {
+            sender = new BukkitConsole((ConsoleCommandSender) source);
         }
         else if (source instanceof BlockCommandSender) {
-            sender = new BukkitBlockCommandSender((BlockCommandSender) source);
+            sender = new BukkitCommandBlock((BlockCommandSender) source);
+        }
+        else {
+            sender = new BukkitPlayer((Player) source);
         }
 
         if (args.length == 0) {
@@ -49,14 +73,44 @@ public class BukkitDispatcher implements IDispatcher, CommandExecutor, TabComple
         String subCommand = args[0].toLowerCase();
         String[] subArgs = (args.length > 1 ? Arrays.copyOfRange(args, 1, args.length) : new String[0]);
 
-        ICommand com = null;
+        CommandWrap com = null;
         if (mCommands.containsKey(subCommand)) {
             com = mCommands.get(subCommand);
+        }
+        else if (subCommand.equals("help") || subCommand.equals("?")) {
+            if (subArgs.length != 0) {
+                return false;
+            }
+
+            sender.sendMessage(Color.GOLD + mRootCommandDescription);
+            sender.sendMessage(Color.GOLD + "Commands: \n");
+
+            for (CommandWrap sub : mCommands.values()) {
+                // Dont show commands that are irrelevant
+                if (!sub.canBeCommandBlock() && sender instanceof BlockCommandSender) {
+                    continue;
+                }
+                if (!sub.canBeConsole() && (sender instanceof ConsoleCommandSender || sender instanceof RemoteConsoleCommandSender)) {
+                    continue;
+                }
+
+                if (sub.getPermission() != null && !sender.hasPermission(sub.getPermission())) {
+                    continue;
+                }
+
+                String usageString = Color.GOLD + "/" + mRootCommandName + " " + sub.getUsageString();
+                sender.sendMessage(usageString);
+                String[] descriptionLines = sub.getDescription().split("\n");
+                for (String line : descriptionLines) {
+                    sender.sendMessage("  " + Color.WHITE + line);
+                }
+            }
+            return true;
         }
         else {
             // Check aliases
             AliasCheck:
-            for (Map.Entry<String, ICommand> ent : mCommands.entrySet()) {
+            for (Map.Entry<String, CommandWrap> ent : mCommands.entrySet()) {
                 if (ent.getValue().getAliases() != null) {
                     String[] aliases = ent.getValue().getAliases();
                     for (String alias : aliases) {
@@ -71,47 +125,29 @@ public class BukkitDispatcher implements IDispatcher, CommandExecutor, TabComple
 
         // Was not found
         if (com == null) {
-            displayUsage(sender, label, subCommand);
+            rootCommand.onCommand(sender, args);
+//            displayUsage(sender, label, subCommand);
             return true;
         }
 
         // Check that the sender is correct
         if (!com.canBeConsole() && (source instanceof ConsoleCommandSender || source instanceof RemoteConsoleCommandSender)) {
-            sender.sendMessage(Chat.RED + "/" + label + " " + subCommand + " cannot be called from the console.");
+            sender.sendMessage(Color.RED + "/" + label + " " + subCommand + " cannot be called from the console.");
             return true;
         }
         if (!com.canBeCommandBlock() && source instanceof BlockCommandSender) {
-            sender.sendMessage(Chat.RED + "/" + label + " " + subCommand + " cannot be called from a command block.");
+            sender.sendMessage(Color.RED + "/" + label + " " + subCommand + " cannot be called from a command block.");
             return true;
         }
 
         // Check that they have permission
         if (com.getPermission() != null && !sender.hasPermission(com.getPermission())) {
-            sender.sendMessage(Chat.RED + "You do not have permission to use /" + label + " " + subCommand);
+            sender.sendMessage(Color.RED + "You do not have permission to use /" + label + " " + subCommand);
             return true;
         }
 
-        if (!com.onCommand(sender, subCommand, subArgs)) {
-            String[] lines = com.getUsageString(subCommand, sender);
-            String usageString;
-
-            if (lines.length > 1) {
-                usageString = Chat.RED + "Usage:\n    ";
-            }
-            else {
-                usageString = Chat.RED + "Usage: ";
-            }
-
-            boolean first = true;
-            for (String line : lines) {
-                if (!first) {
-                    usageString += "\n    ";
-                }
-                first = false;
-
-                usageString += Chat.GRAY + "/" + label + " " + line;
-            }
-
+        if (!com.onCommand(sender, subArgs)) {
+            String usageString = Color.RED + "Usage: " + Color.GRAY + "/" + label + " " + com.getUsageString();
             sender.sendMessage(usageString);
         }
 
@@ -124,7 +160,7 @@ public class BukkitDispatcher implements IDispatcher, CommandExecutor, TabComple
         boolean first = true;
         boolean odd = true;
         // Build the list
-        for (ICommand command : mCommands.values()) {
+        for (CommandWrap command : mCommands.values()) {
             // Check that the sender is correct
             if (!command.canBeConsole() && (sender instanceof ConsoleCommandSender || sender instanceof RemoteConsoleCommandSender)) {
                 continue;
@@ -136,10 +172,10 @@ public class BukkitDispatcher implements IDispatcher, CommandExecutor, TabComple
             }
 
             if (odd) {
-                usage += Chat.WHITE;
+                usage += Color.WHITE;
             }
             else {
-                usage += Chat.GRAY;
+                usage += Color.GRAY;
             }
             odd = !odd;
 
@@ -154,10 +190,10 @@ public class BukkitDispatcher implements IDispatcher, CommandExecutor, TabComple
         }
 
         if (subcommand != null) {
-            sender.sendMessage(Chat.RED + "Unknown command: " + Chat.RESET + "/" + label + " " + Chat.GOLD + subcommand);
+            sender.sendMessage(Color.RED + "Unknown command: " + Color.RESET + "/" + label + " " + Color.GOLD + subcommand);
         }
         else {
-            sender.sendMessage(Chat.RED + "No command specified: " + Chat.RESET + "/" + label + Chat.GOLD + " <command>");
+            sender.sendMessage(Color.RED + "No command specified: " + Color.RESET + "/" + label + Color.GOLD + " <command>");
         }
 
         if (!first) {
@@ -171,10 +207,10 @@ public class BukkitDispatcher implements IDispatcher, CommandExecutor, TabComple
 
     public List<String> onTabComplete(CommandSender source, Command command, String label, String[] args) {
         ICommandSender sender = new BukkitPlayer((Player) source);
-        List<String> results = new ArrayList<String>();
-        if (args.length == 1) // Tab completing the sub command
-        {
-            for (ICommand registeredCommand : mCommands.values()) {
+        List<String> results = new ArrayList<>();
+        results.addAll(rootCommand.onTabComplete(sender, args));
+        if (args.length == 1) { // Tab completing the sub command
+            for (CommandWrap registeredCommand : mCommands.values()) {
                 if (registeredCommand.getName().toLowerCase().startsWith(args[0].toLowerCase())) {
                     // Check that the sender is correct
                     if (!registeredCommand.canBeConsole() && (sender instanceof ConsoleCommandSender || sender instanceof RemoteConsoleCommandSender)) {
@@ -195,14 +231,14 @@ public class BukkitDispatcher implements IDispatcher, CommandExecutor, TabComple
             String subCommand = args[0].toLowerCase();
             String[] subArgs = (args.length > 1 ? Arrays.copyOfRange(args, 1, args.length) : new String[0]);
 
-            ICommand com = null;
+            CommandWrap com = null;
             if (mCommands.containsKey(subCommand)) {
                 com = mCommands.get(subCommand);
             }
             else {
                 // Check aliases
                 AliasCheck:
-                for (Map.Entry<String, ICommand> ent : mCommands.entrySet()) {
+                for (Map.Entry<String, CommandWrap> ent : mCommands.entrySet()) {
                     if (ent.getValue().getAliases() != null) {
                         String[] aliases = ent.getValue().getAliases();
                         for (String alias : aliases) {
@@ -230,91 +266,12 @@ public class BukkitDispatcher implements IDispatcher, CommandExecutor, TabComple
                 return results;
             }
 
-            results = com.onTabComplete(sender, subCommand, subArgs);
+            results = com.onTabComplete(sender, subArgs);
             if (results == null) {
-                return new ArrayList<String>();
+                return new ArrayList<>();
             }
         }
         return results;
     }
 
-    private class InternalHelp implements ICommand {
-
-        public String getName() {
-            return "help";
-        }
-
-        public String[] getAliases() {
-            return null;
-        }
-
-        public String getPermission() {
-            return null;
-        }
-
-        public String[] getUsageString(String label, ICommandSender sender) {
-            return new String[]{label};
-        }
-
-        public String getDescription() {
-            return "Displays this screen.";
-        }
-
-        public boolean canBeConsole() {
-            return true;
-        }
-
-        public boolean canBeCommandBlock() {
-            return true;
-        }
-
-        public boolean onCommand(ICommandSender sender, String label, String[] args) {
-            if (args.length != 0) {
-                return false;
-            }
-
-            sender.sendMessage(Chat.GOLD + mRootCommandDescription);
-            sender.sendMessage(Chat.GOLD + "Commands: \n");
-
-            for (ICommand command : mCommands.values()) {
-                // Dont show commands that are irrelevant
-                if (!command.canBeCommandBlock() && sender instanceof BlockCommandSender) {
-                    continue;
-                }
-                if (!command.canBeConsole() && (sender instanceof ConsoleCommandSender || sender instanceof RemoteConsoleCommandSender)) {
-                    continue;
-                }
-
-                if (command.getPermission() != null && !sender.hasPermission(command.getPermission())) {
-                    continue;
-                }
-
-
-                String usageString = "";
-                boolean first = true;
-                for (String line : command.getUsageString(command.getName(), sender)) {
-                    if (!first) {
-                        usageString += "\n";
-                    }
-
-                    first = false;
-
-                    usageString += Chat.GOLD + "/" + mRootCommandName + " " + line;
-                }
-
-                sender.sendMessage(usageString);
-                String[] descriptionLines = command.getDescription().split("\n");
-                for (String line : descriptionLines) {
-                    sender.sendMessage("  " + Chat.WHITE + line);
-                }
-            }
-            return true;
-        }
-
-        public List<String> onTabComplete(ICommandSender sender, String label, String[] args) {
-            return null;
-        }
-
-    }
 }
-

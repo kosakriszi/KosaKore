@@ -4,6 +4,6 @@ import com.kosakorner.kosakore.api.entity.IEntity;
 
 public interface IChunk {
 
-    public IEntity[] getEntities();
+    IEntity[] getEntities();
 
 }

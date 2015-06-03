@@ -7,18 +7,18 @@ import java.util.List;
 
 public interface IItemStack {
 
-    public String getName();
+    String getName();
 
-    public List<String> getLore();
+    List<String> getLore();
 
-    public Type getType();
+    Type getType();
 
-    public int getStackSize();
+    int getStackSize();
 
-    public void setStackSize(int amount);
+    void setStackSize(int amount);
 
-    public short getDurability();
+    short getDurability();
 
-    public List<IEnchantment> getEnchantments();
+    List<IEnchantment> getEnchantments();
 
 }

@@ -1,9 +1,9 @@
 package com.kosakorner.kosakore.api.util.algorithm;
 
-import com.kosakorner.kosakore.api.block.IBlock;
 import com.kosakorner.kosakore.api.type.Type;
-import com.kosakorner.kosakore.api.world.Location;
+import com.kosakorner.kosakore.api.world.IBlock;
 import com.kosakorner.kosakore.api.world.IWorld;
+import com.kosakorner.kosakore.api.world.Location;
 
 public class OcTree {
 

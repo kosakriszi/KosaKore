@@ -7,32 +7,32 @@ import java.util.UUID;
 
 public interface IPlayer extends ICommandSender, IEntity {
 
-    public UUID getUniqueID();
+    UUID getUniqueID();
 
-    public String getName();
+    String getName();
 
-    public String getDisplayName();
+    String getDisplayName();
 
-    public void setDisplayName(String name);
+    void setDisplayName(String name);
 
-    public IInventory getInventory();
+    IInventory getInventory();
 
-    public String getAddress();
+    String getAddress();
 
-    public void kickPlayer(String reason);
+    void kickPlayer(String reason);
 
-    public void chat(String message);
+    void chat(String message);
 
-    public boolean executeCommand(String command);
+    boolean executeCommand(String command);
 
-    public boolean isSneaking();
+    boolean isSneaking();
 
-    public void setSneaking(boolean state);
+    void setSneaking(boolean state);
 
-    public boolean isSprinting();
+    boolean isSprinting();
 
-    public void setSprinting(boolean state);
+    void setSprinting(boolean state);
 
-    public void giveExp(int amount);
+    void giveExp(int amount);
 
 }

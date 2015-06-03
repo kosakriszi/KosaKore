@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public enum Type {
+
     AIR(0),
     STONE,
     GRASS,
@@ -396,15 +397,15 @@ public enum Type {
     private int maxStackSize;
     private int maxDurability;
 
-    private Type() {
+    Type() {
         this(64);
     }
 
-    private Type(int maxStackSize) {
+    Type(int maxStackSize) {
         this(maxStackSize, 0);
     }
 
-    private Type(int maxStackSize, int maxDurability) {
+    Type(int maxStackSize, int maxDurability) {
         this.maxStackSize = maxStackSize;
         this.maxDurability = maxDurability;
     }

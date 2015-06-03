@@ -4,6 +4,6 @@ import com.kosakorner.kosakore.api.entity.IPlayer;
 
 public interface IEconomyAdapter extends IAdapter {
 
-    public void depositCurrency(IPlayer player, double amount);
+    void depositCurrency(IPlayer player, double amount);
 
 }

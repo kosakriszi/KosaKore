@@ -5,12 +5,12 @@ import com.kosakorner.kosakore.api.world.Location;
 
 public interface IEntity {
 
-    public Location getLocation();
+    Location getLocation();
 
-    public void teleport(Location location);
+    void teleport(Location location);
 
-    public EntityType getType();
+    EntityType getType();
 
-    public void remove();
+    void remove();
 
 }

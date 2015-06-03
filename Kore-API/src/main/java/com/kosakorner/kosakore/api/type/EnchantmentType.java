@@ -31,7 +31,7 @@ public enum EnchantmentType {
     private String name;
     private int maxLevel;
 
-    private EnchantmentType(String name, int maxLevel) {
+    EnchantmentType(String name, int maxLevel) {
         this.name = name;
         this.maxLevel = maxLevel;
     }

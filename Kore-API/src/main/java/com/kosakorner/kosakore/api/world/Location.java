@@ -1,7 +1,6 @@
 package com.kosakorner.kosakore.api.world;
 
 import com.kosakorner.kosakore.api.KoreAPI;
-import com.kosakorner.kosakore.api.block.IBlock;
 import com.kosakorner.kosakore.api.entity.IEntity;
 import com.kosakorner.kosakore.api.type.Type;
 

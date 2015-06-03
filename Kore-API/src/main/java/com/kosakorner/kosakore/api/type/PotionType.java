@@ -87,7 +87,7 @@ public enum PotionType implements IDamageHelper {
         }
     }
 
-    private PotionType(int damage) {
+    PotionType(int damage) {
         this.damage = damage;
     }
 

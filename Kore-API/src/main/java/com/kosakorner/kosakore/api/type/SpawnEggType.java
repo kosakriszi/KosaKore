@@ -42,7 +42,7 @@ public enum SpawnEggType implements IDamageHelper {
         }
     }
 
-    private SpawnEggType(int damage) {
+    SpawnEggType(int damage) {
         this.damage = damage;
     }
 

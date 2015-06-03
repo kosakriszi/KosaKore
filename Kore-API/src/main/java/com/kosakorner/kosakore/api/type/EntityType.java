@@ -83,7 +83,7 @@ public enum EntityType {
         }
     }
 
-    private EntityType(int id) {
+    EntityType(int id) {
         this.id = id;
     }
 

@@ -6,6 +6,6 @@ import java.io.File;
 
 public interface IWorldEditAdapter extends IAdapter {
 
-    public void pasteSchematic(Location location, File schematic);
+    void pasteSchematic(Location location, File schematic);
 
 }

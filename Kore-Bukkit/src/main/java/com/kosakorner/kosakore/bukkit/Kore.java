@@ -67,7 +67,7 @@ public class Kore extends JavaPlugin implements IKore {
 
         playerUtils = new PlayerUtils();
 
-        adapters = new HashMap<Adapters, IAdapter>();
+        adapters = new HashMap<>();
         adapters.put(Adapters.WORLDEDIT, new BukkitWorldEditAdapter());
         adapters.put(Adapters.WORLDGUARD, new BukkitWorldGuardAdapter());
         adapters.put(Adapters.PERMISSION, new BukkitPermissionAdapter());
@@ -106,7 +106,7 @@ public class Kore extends JavaPlugin implements IKore {
     }
 
     public List<IPlayer> getPlayers() {
-        List<IPlayer> toReturn = new ArrayList<IPlayer>();
+        List<IPlayer> toReturn = new ArrayList<>();
         for (Player player : Bukkit.getOnlinePlayers()) {
             toReturn.add(new BukkitPlayer(player));
         }
@@ -114,7 +114,7 @@ public class Kore extends JavaPlugin implements IKore {
     }
 
     public List<IPlayer> matchPlayer(String partialName) {
-        List<IPlayer> matchedPlayers = new ArrayList<IPlayer>();
+        List<IPlayer> matchedPlayers = new ArrayList<>();
 
         for (IPlayer player : getPlayers()) {
             String name = player.getName();

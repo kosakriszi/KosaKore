@@ -4,8 +4,8 @@ import java.io.File;
 
 public interface IDownloadListener {
 
-    public void onSuccess(File file);
+    void onSuccess(File file);
 
-    public void onFailure(File file);
+    void onFailure(File file);
 
 }

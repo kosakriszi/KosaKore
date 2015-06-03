@@ -2,8 +2,8 @@ package com.kosakorner.kosakore.api.event;
 
 public interface Cancelable {
 
-    public boolean isCanceled();
+    boolean isCanceled();
 
-    public void setCancelled(boolean canceled);
+    void setCancelled(boolean canceled);
 
 }

@@ -1,10 +1,9 @@
 package com.kosakorner.kosakore.bukkit.world;
 
-import com.kosakorner.kosakore.api.block.IBlock;
+import com.kosakorner.kosakore.api.world.IBlock;
 import com.kosakorner.kosakore.api.world.IChunk;
 import com.kosakorner.kosakore.api.world.IWorld;
 import com.kosakorner.kosakore.api.world.Location;
-import com.kosakorner.kosakore.bukkit.block.BukkitBlock;
 import com.kosakorner.kosakore.bukkit.util.ConversionUtils;
 import org.bukkit.World;
 

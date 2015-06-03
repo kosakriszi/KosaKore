@@ -1,11 +1,23 @@
 package com.kosakorner.kosakore.api.command;
 
+/**
+ * A command sender.
+ */
 public interface ICommandSender {
 
-    public SenderType getSenderType();
+    /**
+     * Send this command sender a message.
+     *
+     * @param message The message to send
+     */
+    void sendMessage(String message);
 
-    public void sendMessage(String message);
-
-    public boolean hasPermission(String node);
+    /**
+     * Check whether a command sender has a permission node.
+     *
+     * @param node The node to check
+     * @return Whether the command sender has permission
+     */
+    boolean hasPermission(String node);
 
 }

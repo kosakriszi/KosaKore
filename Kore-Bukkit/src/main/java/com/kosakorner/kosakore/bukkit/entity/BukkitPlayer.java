@@ -1,7 +1,6 @@
 package com.kosakorner.kosakore.bukkit.entity;
 
 import com.kosakorner.kosakore.api.command.ICommandSender;
-import com.kosakorner.kosakore.api.command.SenderType;
 import com.kosakorner.kosakore.api.entity.IPlayer;
 import com.kosakorner.kosakore.api.inventory.IInventory;
 import com.kosakorner.kosakore.bukkit.inventory.BukkitInventory;
@@ -72,10 +71,6 @@ public class BukkitPlayer extends BukkitEntity implements IPlayer, ICommandSende
 
     public void giveExp(int amount) {
         backingPlayer.giveExp(amount);
-    }
-
-    public SenderType getSenderType() {
-        return SenderType.PLAYER;
     }
 
     public void sendMessage(String message) {

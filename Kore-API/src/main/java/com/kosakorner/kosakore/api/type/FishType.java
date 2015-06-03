@@ -19,7 +19,7 @@ public enum FishType implements IDamageHelper {
         }
     }
 
-    private FishType(int damage) {
+    FishType(int damage) {
         this.damage = damage;
     }
 

@@ -30,7 +30,7 @@ public class BukkitDispatcherFactory implements IDispatcherFactory {
         }
 
         if (craftServerClass == null) {
-            Kore.log("FATAL - Unable to hook into the Bukkit command map! There WILL BE ISSUES");
+            Kore.log("FATAL - Unable to hook into the Bukkit command map. You will have no commands!");
         }
     }
 
