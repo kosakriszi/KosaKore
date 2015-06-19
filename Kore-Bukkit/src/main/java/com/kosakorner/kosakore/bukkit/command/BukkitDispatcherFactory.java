@@ -44,7 +44,7 @@ public class BukkitDispatcherFactory implements IDispatcherFactory {
             pluginCommand.setExecutor(dispatcher);
             pluginCommand.setTabCompleter(dispatcher);
             boolean success = commandMap.register(pluginName, pluginCommand);
-            Kore.log("Registered \"" + command + "\": " + success);
+            Kore.log("Registered command \"" + command + "\": " + success);
             return dispatcher;
         }
         catch (Exception e) {

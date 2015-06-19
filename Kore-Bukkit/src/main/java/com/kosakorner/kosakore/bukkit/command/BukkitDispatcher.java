@@ -125,7 +125,9 @@ public class BukkitDispatcher implements IDispatcher, CommandExecutor, TabComple
 
         // Was not found
         if (com == null) {
-            rootCommand.onCommand(sender, args);
+            if (rootCommand != null) {
+                rootCommand.onCommand(sender, args);
+            }
 //            displayUsage(sender, label, subCommand);
             return true;
         }
@@ -208,7 +210,9 @@ public class BukkitDispatcher implements IDispatcher, CommandExecutor, TabComple
     public List<String> onTabComplete(CommandSender source, Command command, String label, String[] args) {
         ICommandSender sender = new BukkitPlayer((Player) source);
         List<String> results = new ArrayList<>();
-        results.addAll(rootCommand.onTabComplete(sender, args));
+        if (rootCommand != null) {
+            results.addAll(rootCommand.onTabComplete(sender, args));
+        }
         if (args.length == 1) { // Tab completing the sub command
             for (CommandWrap registeredCommand : mCommands.values()) {
                 if (registeredCommand.getName().toLowerCase().startsWith(args[0].toLowerCase())) {

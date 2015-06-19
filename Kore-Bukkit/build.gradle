@@ -1,6 +1,6 @@
 dependencies {
     compile project(':Kore-API')
-    compile 'org.bukkit:bukkit:1.8.3-R0.1-SNAPSHOT'
+    compile 'org.bukkit:bukkit:1.8.7-R0.1-SNAPSHOT'
     //compile files('../lib/spigot-1.8.3.jar')
     compile 'net.milkbowl.vault:VaultAPI:1.5'
     compile 'com.sk89q.worldedit:worldedit-bukkit:6.0.2-SNAPSHOT'
