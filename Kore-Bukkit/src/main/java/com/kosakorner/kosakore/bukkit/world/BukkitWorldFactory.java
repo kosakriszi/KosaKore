@@ -1,13 +1,12 @@
 package com.kosakorner.kosakore.bukkit.world;
 
-import com.kosakorner.kosakore.api.world.EnvironmentType;
+import com.kosakorner.kosakore.api.world.DimensionType;
 import com.kosakorner.kosakore.api.world.IWorld;
 import com.kosakorner.kosakore.api.world.IWorldFactory;
 import com.kosakorner.kosakore.api.world.WorldType;
 import com.kosakorner.kosakore.bukkit.util.ConversionUtils;
 import com.kosakorner.kosakore.bukkit.world.generator.VoidGenerator;
 import org.bukkit.Bukkit;
-import org.bukkit.World;
 import org.bukkit.WorldCreator;
 
 public class BukkitWorldFactory implements IWorldFactory {
@@ -17,7 +16,7 @@ public class BukkitWorldFactory implements IWorldFactory {
     }
 
     // TODO: implement fully
-    public IWorld createWorld(String name, WorldType worldType, EnvironmentType envType) {
+    public IWorld createWorld(String name, WorldType worldType, DimensionType envType) {
         switch (worldType) {
             case NORMAL:
                 break;

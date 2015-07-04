@@ -4,6 +4,6 @@ public interface IWorldFactory {
 
     IWorld getWorld(String name);
 
-    IWorld createWorld(String name, WorldType worldType, EnvironmentType envType);
+    IWorld createWorld(String name, WorldType worldType, DimensionType envType);
 
 }

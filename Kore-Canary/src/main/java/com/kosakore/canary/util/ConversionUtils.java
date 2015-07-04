@@ -3,10 +3,9 @@ package com.kosakore.canary.util;
 import com.kosakore.canary.item.CanaryItemStack;
 import com.kosakore.canary.world.CanaryWorld;
 import com.kosakorner.kosakore.api.item.IItemStack;
-import com.kosakorner.kosakore.api.world.EnvironmentType;
+import com.kosakorner.kosakore.api.world.DimensionType;
 import net.canarymod.Canary;
 import net.canarymod.api.inventory.Item;
-import net.canarymod.api.world.DimensionType;
 import net.canarymod.api.world.position.Location;
 
 public class ConversionUtils {
@@ -37,31 +36,31 @@ public class ConversionUtils {
         }
     }
 
-    public static EnvironmentType toKoreEnvironment(DimensionType environment) {
-        if (environment.equals(DimensionType.NORMAL)) {
-            return EnvironmentType.NORMAL;
+    public static DimensionType toKoreEnvironment(net.canarymod.api.world.DimensionType environment) {
+        if (environment.equals(net.canarymod.api.world.DimensionType.NORMAL)) {
+            return DimensionType.NORMAL;
         }
-        else if (environment.equals(DimensionType.NETHER)) {
-            return EnvironmentType.NETHER;
+        else if (environment.equals(net.canarymod.api.world.DimensionType.NETHER)) {
+            return DimensionType.NETHER;
         }
-        else if (environment.equals(DimensionType.END)) {
-            return EnvironmentType.THE_END;
+        else if (environment.equals(net.canarymod.api.world.DimensionType.END)) {
+            return DimensionType.THE_END;
         }
         else {
-            return EnvironmentType.NORMAL;
+            return DimensionType.NORMAL;
         }
     }
 
-    public static DimensionType fromKoreEnvironment(EnvironmentType environment) {
+    public static net.canarymod.api.world.DimensionType fromKoreEnvironment(DimensionType environment) {
         switch (environment) {
             case NORMAL:
-                return DimensionType.NORMAL;
+                return net.canarymod.api.world.DimensionType.NORMAL;
             case NETHER:
-                return DimensionType.NETHER;
+                return net.canarymod.api.world.DimensionType.NETHER;
             case THE_END:
-                return DimensionType.END;
+                return net.canarymod.api.world.DimensionType.END;
             default:
-                return DimensionType.NORMAL;
+                return net.canarymod.api.world.DimensionType.NORMAL;
         }
     }
 

@@ -1,6 +1,6 @@
 package com.kosakorner.kosakore.api.world;
 
-public enum EnvironmentType {
+public enum DimensionType {
 
     NORMAL,
     NETHER,

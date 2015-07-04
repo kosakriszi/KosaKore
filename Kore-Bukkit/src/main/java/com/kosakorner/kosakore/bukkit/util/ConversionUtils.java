@@ -1,7 +1,7 @@
 package com.kosakorner.kosakore.bukkit.util;
 
 import com.kosakorner.kosakore.api.item.IItemStack;
-import com.kosakorner.kosakore.api.world.EnvironmentType;
+import com.kosakorner.kosakore.api.world.DimensionType;
 import com.kosakorner.kosakore.bukkit.item.BukkitItemStack;
 import com.kosakorner.kosakore.bukkit.world.BukkitWorld;
 import org.bukkit.Bukkit;
@@ -37,20 +37,20 @@ public class ConversionUtils {
         }
     }
 
-    public static EnvironmentType toKoreEnvironment(World.Environment environment) {
+    public static DimensionType toKoreEnvironment(World.Environment environment) {
         switch (environment) {
             case NORMAL:
-                return EnvironmentType.NORMAL;
+                return DimensionType.NORMAL;
             case NETHER:
-                return EnvironmentType.NETHER;
+                return DimensionType.NETHER;
             case THE_END:
-                return EnvironmentType.THE_END;
+                return DimensionType.THE_END;
             default:
-                return EnvironmentType.NORMAL;
+                return DimensionType.NORMAL;
         }
     }
 
-    public static World.Environment fromKoreEnvironment(EnvironmentType environment) {
+    public static World.Environment fromKoreEnvironment(DimensionType environment) {
         switch (environment) {
             case NORMAL:
                 return World.Environment.NORMAL;
