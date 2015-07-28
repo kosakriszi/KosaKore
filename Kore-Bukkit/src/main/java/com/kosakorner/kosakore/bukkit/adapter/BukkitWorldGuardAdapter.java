@@ -151,7 +151,7 @@ public class BukkitWorldGuardAdapter implements IWorldGuardAdapter {
 
     public Set<String> getApplicableRegions(Location location) {
         Set<ProtectedRegion> regions = worldGuard.getRegionManager(Bukkit.getWorld(location.getWorld().getName())).getApplicableRegions(ConversionUtils.fromKoreLocation(location)).getRegions();
-        Set<String> matches = new HashSet<String>();
+        Set<String> matches = new HashSet<>();
         for (ProtectedRegion region : regions) {
             matches.add(region.getId());
         }

@@ -66,7 +66,12 @@ public class BukkitDispatcher implements IDispatcher, CommandExecutor, TabComple
         }
 
         if (args.length == 0) {
-            displayUsage(sender, label, null);
+            if (rootCommand != null) {
+                boolean complete = rootCommand.onCommand(sender, args);
+                if (!complete) {
+                    displayUsage(sender, label, null);
+                }
+            }
             return true;
         }
 
@@ -126,9 +131,11 @@ public class BukkitDispatcher implements IDispatcher, CommandExecutor, TabComple
         // Was not found
         if (com == null) {
             if (rootCommand != null) {
-                rootCommand.onCommand(sender, args);
+                boolean complete = rootCommand.onCommand(sender, args);
+                if (!complete) {
+                    displayUsage(sender, label, subCommand);
+                }
             }
-//            displayUsage(sender, label, subCommand);
             return true;
         }
 

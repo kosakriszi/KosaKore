@@ -15,7 +15,7 @@ public class ModuleLoader {
 
     private IKore kore;
 
-    private Map<String, ModuleWrapper> modules = new HashMap<String, ModuleWrapper>();
+    private Map<String, ModuleWrapper> modules = new HashMap<>();
 
     public ModuleLoader(IKore kore, File moduleDir) {
         this.kore = kore;
@@ -75,7 +75,7 @@ public class ModuleLoader {
     }
 
     public List<String> listModules() {
-        List<String> list = new ArrayList<String>();
+        List<String> list = new ArrayList<>();
         for (Map.Entry<String, ModuleWrapper> entry : modules.entrySet()) {
             ModuleWrapper moduleInfo = entry.getValue();
             list.add(moduleInfo.getName());

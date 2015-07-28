@@ -34,7 +34,7 @@ public enum SpawnEggType implements IDamageHelper {
     VILLAGER(120);
 
     private int damage;
-    private static Map<String, SpawnEggType> map = new HashMap<String, SpawnEggType>();
+    private static Map<String, SpawnEggType> map = new HashMap<>();
 
     static {
         for (SpawnEggType entry : SpawnEggType.values()) {

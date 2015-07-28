@@ -13,7 +13,7 @@ public enum TreeType implements IDamageHelper {
     DARK_OAK(5);
 
     private int damage;
-    private static Map<String, TreeType> map = new HashMap<String, TreeType>();
+    private static Map<String, TreeType> map = new HashMap<>();
 
     static {
         for (TreeType entry : TreeType.values()) {

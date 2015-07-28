@@ -73,8 +73,8 @@ public enum EntityType {
     UNKNOWN(-1);
 
     private int id;
-    private static Map<String, EntityType> nameMap = new HashMap<String, EntityType>();
-    private static Map<Short, EntityType> idMap = new HashMap<Short, EntityType>();
+    private static Map<String, EntityType> nameMap = new HashMap<>();
+    private static Map<Short, EntityType>  idMap   = new HashMap<>();
 
     static {
         for (EntityType entry : EntityType.values()) {

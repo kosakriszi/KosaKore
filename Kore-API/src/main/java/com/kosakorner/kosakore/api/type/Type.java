@@ -392,7 +392,7 @@ public enum Type {
     RECORD_11(1),
     RECORD_12(1);
 
-    private static Map<String, Type> typeNames = new HashMap<String, Type>();
+    private static Map<String, Type> typeNames = new HashMap<>();
 
     private int maxStackSize;
     private int maxDurability;

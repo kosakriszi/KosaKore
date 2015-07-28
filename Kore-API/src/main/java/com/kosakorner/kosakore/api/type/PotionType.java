@@ -79,7 +79,7 @@ public enum PotionType implements IDamageHelper {
     SPLASH_STRENGTH_II_LONG(8297 + 8192);
 
     private int damage;
-    private static Map<String, PotionType> map = new HashMap<String, PotionType>();
+    private static Map<String, PotionType> map = new HashMap<>();
 
     static {
         for (PotionType entry : PotionType.values()) {

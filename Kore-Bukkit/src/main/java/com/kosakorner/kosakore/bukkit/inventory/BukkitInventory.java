@@ -28,7 +28,7 @@ public class BukkitInventory implements IInventory {
     }
 
     public void remove(IItemStack stack) {
-        backingInventory.remove(ConversionUtils.fromKoreItemStack(stack));
+        backingInventory.removeItem(ConversionUtils.fromKoreItemStack(stack));
     }
 
     public void clear(int index) {

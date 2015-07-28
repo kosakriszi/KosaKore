@@ -59,7 +59,7 @@ public class PlayerUtils implements Listener {
     }
 
     public Map<String, UUID> readUUIDMap() {
-        Map<String, UUID> map = new HashMap<String, UUID>();
+        Map<String, UUID> map = new HashMap<>();
 
         if (!mapFile.exists()) {
             return map;

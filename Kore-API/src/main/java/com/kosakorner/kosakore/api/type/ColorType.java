@@ -23,7 +23,7 @@ public enum ColorType implements IDamageHelper {
     WHITE(15);
 
     private int damage;
-    private static Map<String, ColorType> map = new HashMap<String, ColorType>();
+    private static Map<String, ColorType> map = new HashMap<>();
 
     static {
         for (ColorType entry : ColorType.values()) {

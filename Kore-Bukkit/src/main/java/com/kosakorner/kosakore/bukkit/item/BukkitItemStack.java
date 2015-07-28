@@ -23,6 +23,7 @@ public class BukkitItemStack implements IItemStack {
     }
 
     public BukkitItemStack(Type type, int amount, short damage) {
+
         backingItem = new ItemStack(Material.getMaterial(type.name()), amount, damage);
     }
 
@@ -44,7 +45,7 @@ public class BukkitItemStack implements IItemStack {
             return backingItem.getItemMeta().getLore();
         }
         else {
-            return new ArrayList<String>();
+            return new ArrayList<>();
         }
     }
 

@@ -11,7 +11,7 @@ public enum FishType implements IDamageHelper {
     PUFFER_FISH(3);
 
     private int damage;
-    private static Map<String, FishType> map = new HashMap<String, FishType>();
+    private static Map<String, FishType> map = new HashMap<>();
 
     static {
         for (FishType entry : FishType.values()) {

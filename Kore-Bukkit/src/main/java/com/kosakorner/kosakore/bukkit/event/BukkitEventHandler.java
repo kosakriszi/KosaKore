@@ -29,7 +29,9 @@ public class BukkitEventHandler implements Listener {
         com.kosakorner.kosakore.api.event.player.PlayerPortalEvent koreEvent = new com.kosakorner.kosakore.api.event.player.PlayerPortalEvent(new BukkitPlayer(event.getPlayer()), ConversionUtils.toKoreLocation(event.getFrom()), ConversionUtils.toKoreLocation(event.getTo()));
         com.kosakorner.kosakore.api.event.player.PlayerPortalEvent returned = kore.eventBus().fire(koreEvent);
         event.setFrom(ConversionUtils.fromKoreLocation(returned.getFrom()));
-        event.setTo(ConversionUtils.fromKoreLocation(returned.getTo()));
+        if (ConversionUtils.fromKoreLocation(returned.getTo()) != null) {
+            event.setTo(ConversionUtils.fromKoreLocation(returned.getTo()));
+        }
         event.setCancelled(returned.isCanceled());
     }
 
