@@ -15,6 +15,7 @@ import com.kosakorner.kosakore.bukkit.adapter.BukkitPermissionAdapter;
 import com.kosakorner.kosakore.bukkit.adapter.BukkitWorldEditAdapter;
 import com.kosakorner.kosakore.bukkit.adapter.BukkitWorldGuardAdapter;
 import com.kosakorner.kosakore.bukkit.command.BukkitDispatcherFactory;
+import com.kosakorner.kosakore.bukkit.entity.BukkitOfflinePlayer;
 import com.kosakorner.kosakore.bukkit.entity.BukkitPlayer;
 import com.kosakorner.kosakore.bukkit.event.BukkitEventHandler;
 import com.kosakorner.kosakore.bukkit.item.BukkitItemFactory;
@@ -116,16 +117,15 @@ public class Kore extends JavaPlugin implements IKore {
     public List<IPlayer> matchPlayer(String partialName) {
         List<IPlayer> matchedPlayers = new ArrayList<>();
 
-        for (IPlayer player : getPlayers()) {
-            String name = player.getName();
-            if (partialName.equalsIgnoreCase(name)) {
+        for (String player : playerUtils.idMap.keySet()) {
+            if (partialName.equalsIgnoreCase(player)) {
                 matchedPlayers.clear();
-                matchedPlayers.add(player);
+                matchedPlayers.add(new BukkitOfflinePlayer(Bukkit.getOfflinePlayer(playerUtils.idMap.get(player))));
                 break;
             }
 
-            if (name.toLowerCase().contains(partialName.toLowerCase())) {
-                matchedPlayers.add(player);
+            if (player.toLowerCase().contains(partialName.toLowerCase())) {
+                matchedPlayers.add(new BukkitOfflinePlayer(Bukkit.getOfflinePlayer(playerUtils.idMap.get(player))));
             }
         }
         return matchedPlayers;

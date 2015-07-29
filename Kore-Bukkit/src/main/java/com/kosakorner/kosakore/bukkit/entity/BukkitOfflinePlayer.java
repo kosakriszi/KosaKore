@@ -1,20 +1,18 @@
 package com.kosakorner.kosakore.bukkit.entity;
 
-import com.kosakorner.kosakore.api.command.ICommandSender;
 import com.kosakorner.kosakore.api.entity.IPlayer;
 import com.kosakorner.kosakore.api.inventory.IInventory;
-import com.kosakorner.kosakore.bukkit.inventory.BukkitInventory;
-import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
+import com.kosakorner.kosakore.api.type.EntityType;
+import com.kosakorner.kosakore.api.world.Location;
+import org.bukkit.OfflinePlayer;
 
 import java.util.UUID;
 
-public class BukkitPlayer extends BukkitEntity implements IPlayer, ICommandSender {
+public class BukkitOfflinePlayer implements IPlayer {
 
-    private Player backingPlayer;
+    private OfflinePlayer backingPlayer;
 
-    public BukkitPlayer(Player player) {
-        super(player);
+    public BukkitOfflinePlayer(OfflinePlayer player) {
         backingPlayer = player;
     }
 
@@ -27,59 +25,74 @@ public class BukkitPlayer extends BukkitEntity implements IPlayer, ICommandSende
     }
 
     public String getDisplayName() {
-        return backingPlayer.getDisplayName();
+        return backingPlayer.getName();
     }
 
     public void setDisplayName(String name) {
-        backingPlayer.setDisplayName(name);
+
     }
 
     public IInventory getInventory() {
-        return new BukkitInventory(backingPlayer.getInventory());
+        return null;
     }
 
     public String getAddress() {
-        return backingPlayer.getAddress().toString();
+        return null;
     }
 
     public void kickPlayer(String reason) {
-        backingPlayer.kickPlayer(reason);
+
     }
 
     public void chat(String message) {
-        backingPlayer.chat(message);
+
     }
 
     public boolean executeCommand(String command) {
-        return Bukkit.dispatchCommand(backingPlayer, command);
+        return false;
     }
 
     public boolean isSneaking() {
-        return backingPlayer.isSneaking();
+        return false;
     }
 
     public void setSneaking(boolean state) {
-        backingPlayer.setSneaking(state);
+
     }
 
     public boolean isSprinting() {
-        return backingPlayer.isSprinting();
+        return false;
     }
 
     public void setSprinting(boolean state) {
-        backingPlayer.setSprinting(state);
+
     }
 
     public void giveExp(int amount) {
-        backingPlayer.giveExp(amount);
+
     }
 
     public void sendMessage(String message) {
-        backingPlayer.sendMessage(message);
+
     }
 
     public boolean hasPermission(String node) {
-        return backingPlayer.hasPermission(node);
+        return false;
     }
 
+    public Location getLocation() {
+        return null;
+    }
+
+    public void teleport(Location location) {
+
+    }
+
+    public EntityType getType() {
+        return EntityType.PLAYER;
+    }
+
+    public void remove() {
+
+    }
 }
