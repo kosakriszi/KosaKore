@@ -155,6 +155,7 @@ public class BukkitDispatcher implements IDispatcher, CommandExecutor, TabComple
             return true;
         }
 
+        // Print usage
         if (!com.onCommand(sender, subArgs)) {
             String usageString = Color.RED + "Usage: " + Color.GRAY + "/" + label + " " + com.getUsageString();
             sender.sendMessage(usageString);
