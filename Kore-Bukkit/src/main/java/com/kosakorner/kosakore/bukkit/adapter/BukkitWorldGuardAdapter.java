@@ -149,6 +149,21 @@ public class BukkitWorldGuardAdapter implements IWorldGuardAdapter {
         }
     }
 
+    public void setEntry(String regionID, IWorld world, boolean state) {
+        RegionManager rgManager = worldGuard.getRegionManager(((BukkitWorld) world).getBackingWorld());
+        ProtectedRegion rg = rgManager.getRegion(regionID);
+        if (rg != null) {
+            rg.setFlag(DefaultFlag.ENTRY, state ? StateFlag.State.ALLOW : StateFlag.State.DENY);
+            rg.setDirty(true);
+        }
+        try {
+            rgManager.save();
+        }
+        catch (StorageException e) {
+            e.printStackTrace();
+        }
+    }
+
     public Set<String> getApplicableRegions(Location location) {
         Set<ProtectedRegion> regions = worldGuard.getRegionManager(Bukkit.getWorld(location.getWorld().getName())).getApplicableRegions(ConversionUtils.fromKoreLocation(location)).getRegions();
         Set<String> matches = new HashSet<>();

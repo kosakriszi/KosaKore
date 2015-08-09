@@ -29,7 +29,6 @@ public class BukkitOfflinePlayer implements IPlayer {
     }
 
     public void setDisplayName(String name) {
-
     }
 
     public IInventory getInventory() {

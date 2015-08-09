@@ -256,8 +256,10 @@ public class Location {
         }
         String[] parts = string.split(Pattern.quote(","));
         Location parsed = new Location(KoreAPI.getKore().worldFactory().getWorld(parts[0]), Double.valueOf(parts[1]), Double.valueOf(parts[2]), Double.valueOf(parts[3]));
-        parsed.setPitch(Float.valueOf(parts[4]));
-        parsed.setYaw(Float.valueOf(parts[5]));
+        if (parts.length > 4) {
+            parsed.setPitch(Float.valueOf(parts[4]));
+            parsed.setYaw(Float.valueOf(parts[5]));
+        }
         return parsed;
     }
 

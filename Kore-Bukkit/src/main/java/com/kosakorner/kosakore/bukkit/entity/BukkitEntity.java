@@ -5,6 +5,7 @@ import com.kosakorner.kosakore.api.type.EntityType;
 import com.kosakorner.kosakore.api.world.Location;
 import com.kosakorner.kosakore.bukkit.util.ConversionUtils;
 import org.bukkit.entity.Entity;
+import org.bukkit.event.player.PlayerTeleportEvent;
 
 public class BukkitEntity implements IEntity {
 
@@ -19,7 +20,7 @@ public class BukkitEntity implements IEntity {
     }
 
     public void teleport(Location location) {
-        backingEntity.teleport(ConversionUtils.fromKoreLocation(location));
+        backingEntity.teleport(ConversionUtils.fromKoreLocation(location), PlayerTeleportEvent.TeleportCause.NETHER_PORTAL);
     }
 
     public EntityType getType() {

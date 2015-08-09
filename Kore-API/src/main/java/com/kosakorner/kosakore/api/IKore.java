@@ -18,6 +18,8 @@ public interface IKore {
 
     public IPlayer getPlayer(UUID uuid);
 
+    public IPlayer getOfflinePlayer(UUID uuid);
+
     public UUID getUUIDFromName(String name);
 
     public String getNameFromUUID(UUID uuid);
@@ -41,5 +43,7 @@ public interface IKore {
     public IAdapter getAdapter(Adapters type);
 
     public File getWorkingDir();
+
+    public void runAsync(Runnable runnable);
 
 }

@@ -4,12 +4,14 @@ dependencies {
     compile 'net.milkbowl.vault:VaultAPI:1.5'
     compile 'com.sk89q.worldedit:worldedit-bukkit:6.0.2-SNAPSHOT'
     compile 'com.sk89q:worldguard:6.0.0-SNAPSHOT'
+    compile 'mkremins:fanciful:0.3.3-SNAPSHOT'
 }
 
 shadowJar {
     classifier 'dist'
     dependencies {
         include(dependency('com.kosakorner.kosakore:Kore-API:1.0'))
+        include(dependency('mkremins:fanciful:0.3.3-SNAPSHOT'))
     }
     from {
         zipTree(project(':Kore-API').tasks.getByName("shadowJar").archivePath)

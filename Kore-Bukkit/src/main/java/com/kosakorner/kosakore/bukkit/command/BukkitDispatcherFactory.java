@@ -2,6 +2,7 @@ package com.kosakorner.kosakore.bukkit.command;
 
 import com.kosakorner.kosakore.api.command.IDispatcher;
 import com.kosakorner.kosakore.api.command.IDispatcherFactory;
+import com.kosakorner.kosakore.api.lang.ILocalization;
 import com.kosakorner.kosakore.bukkit.Kore;
 import org.bukkit.Bukkit;
 import org.bukkit.command.PluginCommand;
@@ -34,9 +35,9 @@ public class BukkitDispatcherFactory implements IDispatcherFactory {
         }
     }
 
-    public IDispatcher createCommandDispatcher(String pluginName, String command, String[] aliases, String description) {
+    public IDispatcher createCommandDispatcher(String pluginName, String command, String[] aliases, String description, ILocalization localization) {
         try {
-            BukkitDispatcher dispatcher = new BukkitDispatcher(command, description);
+            BukkitDispatcher dispatcher = new BukkitDispatcher(command, description, localization);
             Constructor<PluginCommand> constructor = PluginCommand.class.getDeclaredConstructor(String.class, Plugin.class);
             constructor.setAccessible(true);
             PluginCommand pluginCommand = constructor.newInstance(command, Kore.instance());

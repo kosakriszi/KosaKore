@@ -4,6 +4,7 @@ import com.kosakorner.kosakore.api.command.Color;
 import com.kosakorner.kosakore.api.command.CommandWrap;
 import com.kosakorner.kosakore.api.command.ICommandSender;
 import com.kosakorner.kosakore.api.command.IDispatcher;
+import com.kosakorner.kosakore.api.lang.ILocalization;
 import com.kosakorner.kosakore.bukkit.entity.BukkitPlayer;
 import org.bukkit.command.*;
 import org.bukkit.entity.Player;
@@ -16,12 +17,14 @@ public class BukkitDispatcher implements IDispatcher, CommandExecutor, TabComple
     private String                       mRootCommandDescription;
     private HashMap<String, CommandWrap> mCommands;
     private CommandWrap                  rootCommand;
+    private ILocalization localization;
 
-    public BukkitDispatcher(String commandName, String description) {
+    public BukkitDispatcher(String commandName, String description, ILocalization localization) {
         mCommands = new HashMap<>();
 
         mRootCommandName = commandName;
         mRootCommandDescription = description;
+        this.localization = localization;
     }
 
     public void registerCommand(Class<?> command) {
@@ -72,6 +75,9 @@ public class BukkitDispatcher implements IDispatcher, CommandExecutor, TabComple
                     displayUsage(sender, label, null);
                 }
             }
+            else {
+                displayUsage(sender, label, null);
+            }
             return true;
         }
 
@@ -105,7 +111,7 @@ public class BukkitDispatcher implements IDispatcher, CommandExecutor, TabComple
 
                 String usageString = Color.GOLD + "/" + mRootCommandName + " " + sub.getUsageString();
                 sender.sendMessage(usageString);
-                String[] descriptionLines = sub.getDescription().split("\n");
+                String[] descriptionLines = localization.translate(sub.getDescription()).split("\n");
                 for (String line : descriptionLines) {
                     sender.sendMessage("  " + Color.WHITE + line);
                 }
@@ -135,6 +141,9 @@ public class BukkitDispatcher implements IDispatcher, CommandExecutor, TabComple
                 if (!complete) {
                     displayUsage(sender, label, subCommand);
                 }
+            }
+            else {
+                displayUsage(sender, label, subCommand);
             }
             return true;
         }

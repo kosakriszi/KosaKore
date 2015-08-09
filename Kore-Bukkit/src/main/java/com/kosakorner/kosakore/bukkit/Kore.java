@@ -98,6 +98,10 @@ public class Kore extends JavaPlugin implements IKore {
         return new BukkitPlayer(Bukkit.getPlayer(uuid));
     }
 
+    public IPlayer getOfflinePlayer(UUID uuid) {
+        return new BukkitOfflinePlayer(Bukkit.getOfflinePlayer(uuid));
+    }
+
     public UUID getUUIDFromName(String name) {
         return playerUtils.getUUIDFromName(name);
     }
@@ -161,6 +165,14 @@ public class Kore extends JavaPlugin implements IKore {
 
     public File getWorkingDir() {
         return getDataFolder();
+    }
+
+    public void runAsync(final Runnable runnable) {
+        Bukkit.getScheduler().runTaskAsynchronously(this, new Runnable() {
+            public void run() {
+                Bukkit.getScheduler().runTask((Kore) Kore.instance(), runnable);
+            }
+        });
     }
 
 }

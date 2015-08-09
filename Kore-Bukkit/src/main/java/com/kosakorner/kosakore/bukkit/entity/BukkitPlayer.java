@@ -18,6 +18,10 @@ public class BukkitPlayer extends BukkitEntity implements IPlayer, ICommandSende
         backingPlayer = player;
     }
 
+    public Player getBackingPlayer() {
+        return backingPlayer;
+    }
+
     public UUID getUniqueID() {
         return backingPlayer.getUniqueId();
     }
@@ -27,7 +31,12 @@ public class BukkitPlayer extends BukkitEntity implements IPlayer, ICommandSende
     }
 
     public String getDisplayName() {
-        return backingPlayer.getDisplayName();
+        if (backingPlayer.getDisplayName() != null) {
+            return backingPlayer.getDisplayName();
+        }
+        else {
+            return backingPlayer.getName();
+        }
     }
 
     public void setDisplayName(String name) {

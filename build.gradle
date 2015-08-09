@@ -35,5 +35,8 @@ subprojects {
         maven {
             url = 'http://maven.sk89q.com/repo'
         }
+        maven {
+            url = 'http://repo.franga2000.com/artifactory/public'
+        }
     }
 }

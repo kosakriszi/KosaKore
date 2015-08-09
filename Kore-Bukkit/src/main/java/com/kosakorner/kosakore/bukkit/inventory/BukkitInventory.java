@@ -6,6 +6,11 @@ import com.kosakorner.kosakore.api.type.Type;
 import com.kosakorner.kosakore.bukkit.util.ConversionUtils;
 import org.bukkit.Material;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 public class BukkitInventory implements IInventory {
 
@@ -15,8 +20,13 @@ public class BukkitInventory implements IInventory {
         backingInventory = inventory;
     }
 
-    public void add(IItemStack stack) {
-        backingInventory.addItem(ConversionUtils.fromKoreItemStack(stack));
+    public List<IItemStack> add(IItemStack stack) {
+        List<IItemStack> toReturn = new ArrayList<>();
+        HashMap<Integer, ItemStack> stacks = backingInventory.addItem(ConversionUtils.fromKoreItemStack(stack));
+        for (ItemStack itemStack : stacks.values()) {
+            toReturn.add(ConversionUtils.toKoreItemStack(itemStack));
+        }
+        return toReturn;
     }
 
     public boolean containsAtLeast(IItemStack stack, int amount) {

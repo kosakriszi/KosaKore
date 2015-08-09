@@ -21,6 +21,8 @@ public interface IWorldGuardAdapter extends IAdapter {
 
     void setPVP(String regionID, IWorld world, boolean state);
 
+    void setEntry(String regionID, IWorld world, boolean state);
+
     Set<String> getApplicableRegions(Location location);
 
 }
