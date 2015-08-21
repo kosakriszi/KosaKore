@@ -19,8 +19,23 @@ public abstract class ItemFactory {
             String[] parts = type.split(":");
             Type material = Type.getType(parts[0]);
 
+            try {
+                short damage = (short) Integer.parseInt(parts[1]);
+                return createItemStack(material, amount, damage);
+            } catch (NumberFormatException e) {
+                // Eat exception, move on.
+            }
+
             if (parts[0].equals("MONSTER_EGG")) {
                 return createItemStack(material, amount, SpawnEggType.get(parts[1]));
+            }
+
+            if (parts[0].equals("COAL")) {
+                if (parts.length == 2) {
+                    return createItemStack(material, amount, CoalType.get(parts[1]));
+                } else {
+                    return createItemStack(material, amount, (short) 0);
+                }
             }
 
             if (parts[0].equals("LOG") ||

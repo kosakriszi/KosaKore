@@ -55,6 +55,12 @@ public class PlayerUtils implements Listener {
         if (!idMap.containsValue(player.getUniqueId())) {
             idMap.put(player.getName(), player.getUniqueId());
             writeUUIDMap();
+        } else {
+            if (!getNameFromUUID(player.getUniqueId()).equals(player.getName())) {
+                idMap.remove(getNameFromUUID(player.getUniqueId()));
+                idMap.put(player.getName(), player.getUniqueId());
+                writeUUIDMap();
+            }
         }
     }
 

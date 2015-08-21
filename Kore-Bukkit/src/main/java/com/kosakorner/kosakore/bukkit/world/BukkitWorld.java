@@ -1,5 +1,6 @@
 package com.kosakorner.kosakore.bukkit.world;
 
+import com.kosakorner.kosakore.api.item.IItemStack;
 import com.kosakorner.kosakore.api.world.IBlock;
 import com.kosakorner.kosakore.api.world.IChunk;
 import com.kosakorner.kosakore.api.world.IWorld;
@@ -34,5 +35,10 @@ public class BukkitWorld implements IWorld {
     public IChunk getChunkAt(Location location) {
         return new BukkitChunk(backingWorld.getChunkAt(ConversionUtils.fromKoreLocation(location)));
     }
+
+    public void dropItem(Location location, IItemStack stack) {
+        backingWorld.dropItem(ConversionUtils.fromKoreLocation(location), ConversionUtils.fromKoreItemStack(stack));
+    }
+
 
 }
